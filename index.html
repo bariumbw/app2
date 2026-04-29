@@ -116,7 +116,7 @@
             box-shadow: 0 60px 120px -20px rgba(0,0,0,0.7);
         }
 
-        /* 依照 5副本2.jpg 嚴格定位黃色區塊 */
+        /* 預覽項目 - 統一向上移 7 格 (約 14px) */
         .preview-item {
             position: absolute;
             color: var(--wedding-red);
@@ -125,31 +125,30 @@
             align-items: center;
             text-align: center;
             pointer-events: none;
-            /* background: rgba(255, 255, 0, 0.1); 可視化調試用 */
         }
 
-        /* 西式定位 */
-        #pre-bE { top: 75px; left: 40px; width: 280px; height: 95px; font-family: 'Georgia', serif; font-style: italic; font-size: 40px; }
-        #pre-gE { top: 245px; left: 220px; width: 270px; height: 95px; font-family: 'Georgia', serif; font-style: italic; font-size: 40px; }
-        #pre-dE { top: 485px; left: 100px; width: 335px; height: 35px; font-weight: bold; font-size: 20px; }
-        #pre-vE { top: 545px; left: 80px; width: 335px; height: 35px; font-weight: bold; font-size: 18px; }
-        #pre-aE { top: 625px; left: 22px; width: 450px; height: 55px; font-size: 14px; align-items: flex-start; }
+        /* 西式定位修正 */
+        #pre-bE { top: 61px; left: 40px; width: 280px; height: 95px; font-family: 'Georgia', serif; font-style: italic; font-size: 40px; }
+        #pre-gE { top: 231px; left: 220px; width: 270px; height: 95px; font-family: 'Georgia', serif; font-style: italic; font-size: 40px; }
+        #pre-dE { top: 471px; left: 100px; width: 335px; height: 35px; font-weight: bold; font-size: 20px; }
+        #pre-vE { top: 531px; left: 80px; width: 335px; height: 35px; font-weight: bold; font-size: 18px; }
+        #pre-aE { top: 611px; left: 22px; width: 450px; height: 55px; font-size: 14px; align-items: flex-start; }
 
-        /* 中式定位 (縱向為主) */
+        /* 中式定位修正 */
         .v-text { writing-mode: vertical-rl; line-height: 1.2; }
-        #pre-dC { top: 285px; right: 28px; height: 400px; width: 40px; font-size: 18px; }
-        #pre-lu { top: 285px; right: 75px; height: 400px; width: 40px; font-size: 16px; }
-        #pre-gC { top: 205px; right: 125px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
-        #pre-bC { top: 205px; right: 155px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
-        #pre-vN { top: 205px; right: 215px; height: 380px; width: 30px; font-size: 18px; }
-        #pre-vA { top: 205px; right: 245px; height: 380px; width: 30px; font-size: 14px; }
+        #pre-dC { top: 271px; right: 28px; height: 400px; width: 40px; font-size: 18px; }
+        #pre-lu { top: 271px; right: 75px; height: 400px; width: 40px; font-size: 16px; }
+        #pre-gC { top: 191px; right: 125px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
+        #pre-bC { top: 191px; right: 155px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
+        #pre-vN { top: 191px; right: 215px; height: 380px; width: 30px; font-size: 18px; }
+        #pre-vA { top: 191px; right: 245px; height: 380px; width: 30px; font-size: 14px; }
         
-        /* 父母名定位 */
-        .parent-box { top: 535px; right: 325px; width: 140px; height: 95px; display: flex; flex-direction: row-reverse; gap: 8px; }
+        /* 父母名定位修正 */
+        .parent-box { top: 521px; right: 325px; width: 140px; height: 95px; display: flex; flex-direction: row-reverse; gap: 8px; }
         .p-name { writing-mode: vertical-rl; width: 28px; height: 100%; font-size: 18px; font-weight: bold; }
 
-        /* 底部產品顯示 */
-        .footer-pre { position: absolute; bottom: 35px; width: 455px; height: 145px; display: flex; gap: 15px; padding: 10px; }
+        /* 底部產品顯示修正 */
+        .footer-pre { position: absolute; bottom: 49px; width: 455px; height: 145px; display: flex; gap: 15px; padding: 10px; }
         .footer-left { left: 22px; } .footer-right { right: 22px; }
         .pre-logo { width: 110px; height: 100%; display: flex; align-items: center; justify-content: center; }
         .pre-logo img { max-width: 100%; max-height: 50px; }
@@ -157,8 +156,8 @@
         .pre-pname { font-weight: bold; font-size: 16px; height: 25px; margin-bottom: 5px; color: var(--wedding-red); }
         .pre-tc { font-size: 10px; line-height: 1.2; overflow: hidden; color: var(--wedding-red); }
 
-        /* 側邊欄產品清單 */
-        .prod-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 15px; margin-bottom: 12px; }
+        /* 產品清單 */
+        .prod-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 15px; margin-bottom: 12px; transition: 0.3s; }
         .prod-card:hover { border-color: var(--accent-blue); background: rgba(59, 130, 246, 0.05); }
     </style>
 </head>
@@ -168,8 +167,8 @@
         <aside class="glass-sidebar">
             <div class="p-6">
                 <div class="flex items-center gap-3 mb-2">
-                    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">B</div>
-                    <span class="text-xl font-bold tracking-tight">Bespoke Mall <span class="text-blue-500">App</span></span>
+                    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-white">B</div>
+                    <span class="text-xl font-bold">Bespoke Mall <span class="text-blue-500 text-sm">DESIGNER</span></span>
                 </div>
             </div>
 
@@ -218,21 +217,18 @@
                 <div id="pre-dE" class="preview-item"></div>
                 <div id="pre-vE" class="preview-item"></div>
                 <div id="pre-aE" class="preview-item"></div>
-
                 <div id="pre-dC" class="preview-item v-text"></div>
                 <div id="pre-lu" class="preview-item v-text"></div>
                 <div id="pre-bC" class="preview-item v-text"></div>
                 <div id="pre-gC" class="preview-item v-text"></div>
                 <div id="pre-vN" class="preview-item v-text"></div>
                 <div id="pre-vA" class="preview-item v-text"></div>
-                
                 <div class="preview-item parent-box">
                     <div id="pre-bM" class="p-name"></div>
                     <div id="pre-bF" class="p-name"></div>
                     <div id="pre-gM" class="p-name"></div>
                     <div id="pre-gF" class="p-name"></div>
                 </div>
-
                 <div class="footer-pre footer-left">
                     <div id="l-logo" class="pre-logo"></div>
                     <div class="pre-info">
@@ -251,7 +247,7 @@
         </main>
     </div>
     <script>
-        // 1. 切換標籤頁 (參照 bariumbw.github.io/app/ 質感)
+        // 1. 分頁控制邏輯
         function switchTab(evt, tabName) {
             const contents = document.querySelectorAll('.tab-content');
             const tabs = document.querySelectorAll('.tab-trigger');
@@ -261,7 +257,7 @@
             evt.currentTarget.classList.add('active');
         }
 
-        // 2. 產品數據庫 - 16 款產品與完整 T&C (絕不縮減內容)
+        // 2. 16 款產品數據 (完整條款及細則，絕不縮減)
         const products = [
             { b: "agnès b.", n: "$50 心意禮券", t: "The e-voucher entitles the holder a cash value of HK$50 spending in any of agnès b. / SPORT b. / agnès b. CAFÉ / agnès b. FLEURISTE / agnès b. DÉLICES shops (except SOGO & Horizon Outlet Store) in Hong Kong. For the corresponding shop address, please refer to https://www.agnesb.com.hk/storeLocator. The e-voucher can only be used on or before the expiry date as shown on the e-voucher. Request for extension of validity of this e-voucher will not be entertained. Any unused amount of this e-voucher will be forfeited. The e-voucher must be presented and can only be used once and will be collected upon redemption, after which it will become invalid. No replacement will be issued if the e-voucher is lost or damaged. The e-voucher is non-transferable, non-resellable, and cannot be cancelled, or exchanged for cash, discounts, credit, or other products or services, and it cannot be used in conjunction with any other vouchers, discounts, privilege cards and other promotional offers. Agnès b. HK Limited reserves the right to amend and withdraw any terms and conditions or terminate this offer without prior notice. In case of any disputes relating to the e-voucher, the decision of Agnès b. HK Limited shall remain final and binding on all relevant parties." },
             { b: "agnès b.", n: "$100 心意禮券", t: "The e-voucher entitles the holder a cash value of HK$100 spending in any of agnès b. / SPORT b. / agnès b. CAFÉ / agnès b. FLEURISTE / agnès b. DÉLICES shops (except SOGO & Horizon Outlet Store) in Hong Kong. For the corresponding shop address, please refer to https://www.agnesb.com.hk/storeLocator. The e-voucher can only be used on or before the expiry date as shown on the e-voucher. Request for extension of validity of this e-voucher will not be entertained. Any unused amount of this e-voucher will be forfeited. The e-voucher must be presented and can only be used once and will be collected upon redemption, after which it will become invalid. No replacement will be issued if the e-voucher is lost or damaged. The e-voucher is non-transferable, non-resellable, and cannot be cancelled, or exchanged for cash, discounts, credit, or other products or services, and it cannot be used in conjunction with any other vouchers, discounts, privilege cards and other promotional offers. Agnès b. HK Limited reserves the right to amend and withdraw any terms and conditions or terminate this offer without prior notice. In case of any disputes relating to the e-voucher, the decision of Agnès b. HK Limited shall remain final and binding on all relevant parties." },
@@ -290,11 +286,11 @@
             "奇華餅家": "https://media.langhamplace.com.hk/cms/store/ENcscXXFp.png"
         };
 
-        // 3. 自動縮放邏輯 (核心功能：防止文字超出黃色區域)
+        // 3. 全自動縮放核心算法
         function autoShrink(el, maxH, baseSize) {
             let size = baseSize;
             el.style.fontSize = size + "px";
-            // 垂直或水平溢出時不斷縮小
+            // 當文字垂直溢出或水平溢出時，遞減 0.5px 字號
             while ((el.scrollHeight > maxH || el.scrollWidth > el.offsetWidth) && size > 7) {
                 size -= 0.5;
                 el.style.fontSize = size + "px";
@@ -306,9 +302,9 @@
             return n.toString().split('').map(i => map[parseInt(i)] || i).join('');
         }
 
-        // 4. 渲染函數
+        // 4. 畫布渲染邏輯
         function render() {
-            // 西式同步
+            // 西式內容映射
             document.getElementById('pre-bE').innerText = document.getElementById('in-bE').value;
             document.getElementById('pre-gE').innerText = document.getElementById('in-gE').value;
             document.getElementById('pre-vE').innerText = document.getElementById('in-vE').value;
@@ -316,7 +312,7 @@
             const dw = new Date(document.getElementById('in-dE').value);
             document.getElementById('pre-dE').innerText = dw.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
 
-            // 中式同步
+            // 中式內容映射
             document.getElementById('pre-bC').innerText = document.getElementById('in-bC').value;
             document.getElementById('pre-gC').innerText = document.getElementById('in-gC').value;
             document.getElementById('pre-vN').innerText = document.getElementById('in-vN').value;
@@ -326,13 +322,13 @@
             const week = ["日","一","二","三","四","五","六"][dc.getDay()];
             document.getElementById('pre-dC').innerText = `公曆 ${toChineseNum(dc.getFullYear())}年${dc.getMonth()+1}月${dc.getDate()}日 (星期${week})`;
 
-            // 父母名
+            // 父母名映射
             document.getElementById('pre-bF').innerText = document.getElementById('in-bF').value;
             document.getElementById('pre-bM').innerText = document.getElementById('in-bM').value;
             document.getElementById('pre-gF').innerText = document.getElementById('in-gF').value;
             document.getElementById('pre-gM').innerText = document.getElementById('in-gM').value;
 
-            // 執行縮放 (根據 5副本2.jpg 標註之框高)
+            // 觸發縮放保護 (數值根據 5副本2.jpg 框高度設定)
             autoShrink(document.getElementById('pre-bE'), 95, 40);
             autoShrink(document.getElementById('pre-gE'), 95, 40);
             autoShrink(document.getElementById('pre-vE'), 35, 18);
@@ -340,7 +336,7 @@
             autoShrink(document.getElementById('pre-vN'), 380, 18);
             autoShrink(document.getElementById('pre-vA'), 380, 14);
 
-            // 底部禮券聯動 (顯示勾選的第一個產品)
+            // 底部禮券自動對齊與聯動
             const selected = document.querySelectorAll('.p-check:checked');
             const leftBox = { logo: 'l-logo', name: 'l-pname', tc: 'l-tc' };
             const rightBox = { logo: 'r-logo', name: 'r-pname', tc: 'r-tc' };
@@ -356,30 +352,29 @@
                     document.getElementById(box.logo).innerHTML = `<img src="${brandLogos[p.b]}" alt="logo">`;
                     document.getElementById(box.name).innerText = p.b + " " + p.n;
                     document.getElementById(box.tc).innerText = p.t;
-                    autoShrink(document.getElementById(box.tc), 90, 10);
+                    autoShrink(document.getElementById(box.tc), 110, 10);
                 }
             });
         }
 
-        // 5. 初始化 UI 列表
+        // 5. 初始化側邊欄產品清單
         const container = document.getElementById('product-list');
         products.forEach((p, i) => {
             const div = document.createElement('div');
             div.className = "prod-card";
             div.innerHTML = `
                 <label class="flex items-start gap-4 cursor-pointer">
-                    <input type="checkbox" data-idx="${i}" class="p-check mt-1 w-5 h-5 rounded border-slate-700 bg-slate-900 checked:bg-blue-500" onchange="render()">
+                    <input type="checkbox" data-idx="${i}" class="p-check mt-1 w-5 h-5 rounded border-slate-700 bg-slate-900 checked:bg-blue-600" onchange="render()">
                     <div class="flex-1">
                         <div class="text-sm font-bold text-white">${p.b}</div>
                         <div class="text-[10px] text-blue-400 font-bold uppercase tracking-widest mb-1">${p.n}</div>
-                        <div class="text-[9px] text-slate-500 leading-tight max-h-[40px] overflow-hidden">${p.t.substring(0, 80)}...</div>
+                        <div class="text-[9px] text-slate-500 leading-tight max-h-[40px] overflow-hidden">${p.t.substring(0, 70)}...</div>
                     </div>
                 </label>
             `;
             container.appendChild(div);
         });
 
-        // 頁面加載完成後自動執行一次
         window.onload = render;
     </script>
 </body>
