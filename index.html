@@ -30,32 +30,32 @@
 
         .preview-item { position: absolute; color: var(--wedding-red); display: flex; justify-content: center; align-items: center; text-align: center; pointer-events: none; }
 
-        /* --- WESTERN 定位修正 --- */
-        /* 姓名放大 2/3 (1.66x) -> 約 67px */
-        #pre-bE { top: 17px; left: 40px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 67px; }
-        #pre-gE { top: 187px; left: 220px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 67px; }
+        /* --- WESTERN 定位更新 --- */
+        /* 姓名縮小 3/4 -> 約 50px (原 67px) */
+        #pre-bE { top: 17px; left: 40px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; }
+        #pre-gE { top: 187px; left: 220px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; }
+        /* 向上移 15 格 (30px) */
+        #pre-dE { top: 347px; left: 100px; width: 335px; height: 35px; font-weight: bold; font-size: 20px; }
+        #pre-vE { top: 407px; left: 80px; width: 335px; height: 35px; font-weight: bold; font-size: 18px; }
         /* 向上移 25 格 (50px) */
-        #pre-dE { top: 377px; left: 100px; width: 335px; height: 35px; font-weight: bold; font-size: 20px; }
-        #pre-vE { top: 437px; left: 80px; width: 335px; height: 35px; font-weight: bold; font-size: 18px; }
-        /* 向上移 40 格 (80px) */
-        #pre-aE { top: 487px; left: 22px; width: 450px; height: 55px; font-size: 14px; align-items: flex-start; }
+        #pre-aE { top: 437px; left: 22px; width: 450px; height: 55px; font-size: 14px; align-items: flex-start; }
 
-        /* --- CHINESE 定位修正 --- */
+        /* --- CHINESE 定位更新 --- */
         .v-text { writing-mode: vertical-rl; line-height: 1.2; }
         #pre-dC { top: 227px; right: 28px; height: 400px; width: 40px; font-size: 18px; }
         #pre-lu { top: 227px; right: 75px; height: 400px; width: 40px; font-size: 16px; }
         
-        /* 新娘新郎：右移 5 (right 減少 10), 上移 15 (top 減少 30) */
-        #pre-gC { top: 117px; right: 115px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
-        #pre-bC { top: 117px; right: 145px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
+        /* 新娘新郎：右移 7 (right 減 14), 上移 15 (top 減 30) */
+        #pre-gC { top: 87px; right: 101px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
+        #pre-bC { top: 87px; right: 131px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
         
-        /* 場地名稱：右移 25 (right 減少 50), 上移 35 (top 減少 70) */
-        #pre-vN { top: 77px; right: 165px; height: 380px; width: 30px; font-size: 18px; }
-        /* 場地地址：右移 25 (right 減少 50), 上移 20 (top 減少 40) */
-        #pre-vA { top: 107px; right: 195px; height: 380px; width: 30px; font-size: 14px; }
+        /* 場地名稱：左移 3 (right 加 6), 上移 15 (top 減 30) */
+        #pre-vN { top: 47px; right: 171px; height: 380px; width: 30px; font-size: 18px; }
+        /* 場地地址：右移 40 (right 減 80), 上移 50 (top 減 100) */
+        #pre-vA { top: 7px; right: 115px; height: 380px; width: 30px; font-size: 14px; }
         
-        /* 父母名：右移 5 (right 減少 10), 上移 25 (top 減少 50) */
-        .parent-box { top: 427px; right: 315px; width: 140px; height: 95px; display: flex; flex-direction: row-reverse; gap: 8px; }
+        /* 父母名：右移 5 (right 減 10), 上移 35 (top 減 70) */
+        .parent-box { top: 357px; right: 305px; width: 140px; height: 95px; display: flex; flex-direction: row-reverse; gap: 8px; }
         .p-name { writing-mode: vertical-rl; width: 28px; height: 100%; font-size: 18px; font-weight: bold; }
 
         /* 底部產品 */
@@ -94,11 +94,15 @@
                     <div class="input-group"><label>農曆</label><input type="text" id="in-lu" value="丙午年九月 初六" oninput="render()"></div>
                     <div class="input-group"><label>場地</label><input type="text" id="in-vN" value="香港四季酒店 · 四季大禮堂" oninput="render()"></div>
                     <div class="input-group"><label>地址</label><input type="text" id="in-vA" value="香港中環金融街 8 號" oninput="render()"></div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <input type="text" id="in-bF" value="嘉誠" oninput="render()">
-                        <input type="text" id="in-bM" value="美玲" oninput="render()">
-                        <input type="text" id="in-gF" value="建國" oninput="render()">
-                        <input type="text" id="in-gM" value="麗珍" oninput="render()">
+                    <div class="grid grid-cols-2 gap-2 mt-4">
+                        <div class="input-group"><label>新娘父/母</label>
+                            <input type="text" id="in-bF" value="嘉誠" oninput="render()">
+                            <input type="text" id="in-bM" value="美玲" oninput="render()" class="mt-2">
+                        </div>
+                        <div class="input-group"><label>新郎父/母</label>
+                            <input type="text" id="in-gF" value="建國" oninput="render()">
+                            <input type="text" id="in-gM" value="麗珍" oninput="render()" class="mt-2">
+                        </div>
                     </div>
                 </div>
                 <div id="tab-p" class="tab-content hidden"><div id="product-list"></div></div>
@@ -133,7 +137,7 @@
             evt.currentTarget.classList.add('active');
         }
 
-        // 2. 16 款產品完整數據
+        // 2. 16 款產品完整數據 (包含 T&C)
         const products = [
             { b: "agnès b.", n: "$50 心意禮券", t: "The e-voucher entitles the holder a cash value of HK$50 spending in any of agnès b. / SPORT b. / agnès b. CAFÉ / agnès b. FLEURISTE / agnès b. DÉLICES shops (except SOGO & Horizon Outlet Store) in Hong Kong. For the corresponding shop address, please refer to https://www.agnesb.com.hk/storeLocator. The e-voucher can only be used on or before the expiry date as shown on the e-voucher. Request for extension of validity of this e-voucher will not be entertained. Any unused amount of this e-voucher will be forfeited. The e-voucher must be presented and can only be used once and will be collected upon redemption, after which it will become invalid. No replacement will be issued if the e-voucher is lost or damaged. The e-voucher is non-transferable, non-resellable, and cannot be cancelled, or exchanged for cash, discounts, credit, or other products or services, and it cannot be used in conjunction with any other vouchers, discounts, privilege cards and other promotional offers. Agnès b. HK Limited reserves the right to amend and withdraw any terms and conditions or terminate this offer without prior notice. In case of any disputes relating to the e-voucher, the decision of Agnès b. HK Limited shall remain final and binding on all relevant parties." },
             { b: "agnès b.", n: "$100 心意禮券", t: "The e-voucher entitles the holder a cash value of HK$100 spending in any of agnès b. / SPORT b. / agnès b. CAFÉ / agnès b. FLEURISTE / agnès b. DÉLICES shops (except SOGO & Horizon Outlet Store) in Hong Kong. For the corresponding shop address, please refer to https://www.agnesb.com.hk/storeLocator. The e-voucher can only be used on or before the expiry date as shown on the e-voucher. Request for extension of validity of this e-voucher will not be entertained. Any unused amount of this e-voucher will be forfeited. The e-voucher must be presented and can only be used once and will be collected upon redemption, after which it will become invalid. No replacement will be issued if the e-voucher is lost or damaged. The e-voucher is non-transferable, non-resellable, and cannot be cancelled, or exchanged for cash, discounts, credit, or other products or services, and it cannot be used in conjunction with any other vouchers, discounts, privilege cards and other promotional offers. Agnès b. HK Limited reserves the right to amend and withdraw any terms and conditions or terminate this offer without prior notice. In case of any disputes relating to the e-voucher, the decision of Agnès b. HK Limited shall remain final and binding on all relevant parties." },
@@ -143,14 +147,14 @@
             { b: "Lady M", n: "$150 禮券", t: "voucher Terms & Conditions: The certificate can only be used to redeem takeaway cakes and drinks at Lady M Hong Kong. The certificate can only be used in Hong Kong. The certificate is not applicable for any whole cake pre-order, merchandize or dine-in order. The certificate must be presented upon purchase. The certificate cannot be used in conjunction with other promotions. The certificate is only valid when stamped by Lady M Hong Kong. The certificate is non-refundable or non-exchangeable for cash. The redemption item is subject to availability. Damaged, altered or expired certificate will not be accepted. Lady M Hong Kong reserves the right to amend the above terms without prior notice. Lady M Hong Kong reserves the right of all final decisions in case of any dispute." },
             { b: "華御結", n: "HK$25 禮券", t: "使用細則及條款 ： 此券適用於華御結各分店(SOGO分店除外）。此券不得兌換現金、轉讓，並恕不作退款或現金找贖。此券不適用於購買套餐，及不可與其他優惠同時使用。此券之影印本無效。此券如經塗改、損壞、模糊及逾期，即屬作廢。華御結保留更改此券使用條款之權利及任何爭議之最終決定權。" },
             { b: "華御結", n: "HK$50 禮券", t: "使用細則及條款 ： 此券適用於華御結各分店(SOGO分店除外）。此券不得兌換現金、轉讓，並恕不作退款或現金找贖。此券不適用於購買套餐，及不可與其他優惠同時使用。此券之影印本無效。此券如經塗改、損壞、模糊及逾期，即屬作廢。華御結保留更改此券使用條款之權利及任何爭議之最終決定權。" },
-            { b: "東海堂", n: "HK$25 禮券 (A)", t: "東海堂條款及細則： 憑此券可於有效期內在東海堂旗下餅店換領總值HK$50之禮餅。此券不適用於電話、手機程式或網上購物。此券只適用於換領禮餅，不適用於換領寄賣物品、飲品。請於付款前出示此券。此券不能兌換現金。此券行使後將不獲發還。" },
-            { b: "東海堂", n: "HK$25 禮券 (B)", t: "東海堂條款及細則：內容同上。此券如有過期、遺失、塗污或損毀，即作廢無效。東海堂保留對此條款之最終解釋權及決定權。" },
-            { b: "東海堂", n: "HK$50 禮券", t: "東海堂條款及細則：憑此券可於有效期內在東海堂旗下餅店換領總值HK$50之禮餅。此券不適用於網上購物，且不能兌換現金或與其他優惠同時使用。" },
+            { b: "東海堂", n: "HK$25 禮券", t: "東海堂條款及細則： 憑此券可於有效期內在東海堂旗下餅店換領總值HK$25之禮餅。此券不適用於電話、手機程式或網上購物。此券不能兌換現金。此券行使後將不獲發還。詳情請參閱券背說明。東海堂保留最終決定權。" },
+            { b: "東海堂", n: "HK$50 禮券", t: "東海堂條款及細則： 憑此券可於有效期內在東海堂旗下餅店換領總值HK$50之禮餅。此券不適用於電話、手機程式或網上購物。此券不能兌換現金。此券行使後將不獲發還。詳情請參閱券背說明。東海堂保留最終決定權。" },
             { b: "奇華餅家", n: "HK$50 禮券", t: "條款及細則：此券不能兌換現金或作現金找贖。此券不能與其他推廣優惠同時使用。此券只限使用一次。此券只適用於奇華餅家香港各分店(香港國際機場分店除外）。" },
-            { b: "奇華餅家", n: "金盈喜餅咭", t: "條款及細則：此券可換取奇華金盈喜禮餅一盒。此券不適用於換領現金。如有任何爭議，奇華餅家有限公司將保留最終決定權。" },
+            { b: "奇華餅家", n: "金盈喜餅咭", t: "條款及細則：此券可換取奇華金盈喜禮餅一盒。逾期作廢。此券不適用於換領現金。如有任何爭議，奇華餅家有限公司將保留最終決定權。" },
             { b: "奇華餅家", n: "金雅喜餅咭", t: "條款及細則：此券可換取奇華金雅喜禮餅一盒。逾期作廢。詳情請參閱券背說明。奇華餅家保留最終決定權。" },
-            { b: "奇華餅家", n: "金緣喜餅咭", t: "條款及細則：此券可換取奇華金緣喜禮餅一盒。此券不可與其他優惠同時使用。產品圖片只供參考。" },
-            { b: "奇華餅家", n: "龍鳳對餅咭", t: "條款及細則：可兌換龍鳳對餅嫁喜禮餅1盒。請提前兩星期到分店預訂。此券不適用於香港國際機場分店。" }
+            { b: "奇華餅家", n: "金緣喜餅咭", t: "條款及細則：此券可換取奇華金緣喜禮餅一盒。逾期作廢。此券不可與其他優惠同時使用。產品圖片只供參考。" },
+            { b: "奇華餅家", n: "龍鳳對餅咭", t: "條款及細則：可兌換龍鳳對餅嫁喜禮餅1盒。請提前兩星期到分店預訂。此券不適用於香港國際機場分店。" },
+            { b: "美心西餅", n: "HK$50 禮券", t: "條款及細則：憑此券到香港美心西餅分店換領價值港幣50元之產品。此券不可兌換現金及不設找贖。逾期作廢。美心食品有限公司保留最終決定權。" }
         ];
 
         const brandLogos = {
@@ -159,10 +163,11 @@
             "Lady M": "https://img.shoplineapp.com/media/image_clips/5b7a801b8f90480017e4ca83/original.png?1534754834",
             "東海堂": "https://www.aromebakery.com.hk/arome/images/logo_v2.png",
             "華御結": "https://www.pacificplace.com.hk/-/media/images/pacificplace2/starstreet/hana-musubi/hana-musubi_logo_apr2022_1.ashx?rev=973c0e9ef342404e845ed5a7f85bd14b&hash=9d532561b9d0e798e9ffc0f878c54d79",
-            "奇華餅家": "https://media.langhamplace.com.hk/cms/store/ENcscXXFp.png"
+            "奇華餅家": "https://media.langhamplace.com.hk/cms/store/ENcscXXFp.png",
+            "美心西餅": "https://www.maximscakes.com.hk/images/logo.png"
         };
 
-        // 3. 全自動縮放核心算法
+        // 3. 全自動縮放核心算法 (確保文字不溢出邊界)
         function autoShrink(el, maxH, baseSize) {
             let size = baseSize;
             el.style.fontSize = size + "px";
@@ -177,7 +182,7 @@
             return n.toString().split('').map(i => map[parseInt(i)] || i).join('');
         }
 
-        // 4. 渲染核心邏輯
+        // 4. 主要渲染邏輯
         function render() {
             // 西式
             document.getElementById('pre-bE').innerText = document.getElementById('in-bE').value;
@@ -203,13 +208,13 @@
             document.getElementById('pre-gF').innerText = document.getElementById('in-gF').value;
             document.getElementById('pre-gM').innerText = document.getElementById('in-gM').value;
 
-            // 縮放保護 (針對放大後的字級進行動態縮小)
-            autoShrink(document.getElementById('pre-bE'), 120, 67);
-            autoShrink(document.getElementById('pre-gE'), 120, 67);
+            // 執行自動縮放 (使用更新後的基礎字級 50px)
+            autoShrink(document.getElementById('pre-bE'), 120, 50);
+            autoShrink(document.getElementById('pre-gE'), 120, 50);
             autoShrink(document.getElementById('pre-vN'), 380, 18);
             autoShrink(document.getElementById('pre-vA'), 380, 14);
 
-            // 禮券聯動
+            // 底部禮券聯動
             const selected = document.querySelectorAll('.p-check:checked');
             const leftBox = { logo: 'l-logo', name: 'l-pname', tc: 'l-tc' };
             const rightBox = { logo: 'r-logo', name: 'r-pname', tc: 'r-tc' };
@@ -229,17 +234,17 @@
             });
         }
 
-        // 5. 初始化
+        // 5. 初始化產品清單
         const list = document.getElementById('product-list');
         products.forEach((p, i) => {
             const div = document.createElement('div');
             div.className = "prod-card";
             div.innerHTML = `
                 <label class="flex items-center gap-3 cursor-pointer">
-                    <input type="checkbox" data-idx="${i}" class="p-check w-4 h-4 rounded" onchange="render()">
+                    <input type="checkbox" data-idx="${i}" class="p-check w-4 h-4 rounded border-slate-600 bg-slate-800" onchange="render()">
                     <div class="text-xs">
                         <div class="font-bold text-white">${p.b}</div>
-                        <div class="text-blue-400 uppercase text-[9px]">${p.n}</div>
+                        <div class="text-blue-400 uppercase text-[9px] font-bold">${p.n}</div>
                     </div>
                 </label>
             `;
