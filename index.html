@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>囍帖預覽器 V2 - Bespoke Mall</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --wedding-text: #632A31; /* 類似圖片中的深紅/咖啡色 */
+        }
+        body {
+            background-color: #f3f4f6;
+            font-family: 'Noto Serif TC', serif;
+        }
+        /* 預覽畫布容器 */
+        .preview-wrapper {
+            width: 1000px;
+            height: 707px;
+            position: relative;
+            background-image: url('5.jpg'); /* 需確保 5.jpg 在同一目錄 */
+            background-size: cover;
+            background-position: center;
+            margin: 0 auto;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.15);
+            overflow: hidden;
+            background-color: #fff;
+        }
+
+        /* --- 西式文字定位 --- */
+        .western-names {
+            position: absolute;
+            top: 65px;
+            left: 45px;
+            width: 410px;
+            text-align: center;
+            font-family: 'Georgia', serif; /* 仿製手寫感 */
+            font-style: italic;
+            font-size: 50px;
+            color: var(--wedding-text);
+            line-height: 1.1;
+        }
+        .western-details {
+            position: absolute;
+            top: 410px;
+            left: 45px;
+            width: 410px;
+            text-align: center;
+            color: var(--wedding-text);
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* --- 中式文字定位 (直排) --- */
+        .chinese-container {
+            position: absolute;
+            top: 135px;
+            right: 55px;
+            height: 400px;
+            writing-mode: vertical-rl;
+            color: var(--wedding-text);
+            display: flex;
+            flex-direction: row-reverse;
+            gap: 22px;
+            font-size: 17px;
+            line-height: 1.5;
+        }
+        .ch-title {
+            font-size: 34px;
+            font-weight: bold;
+            margin-right: 25px;
+            letter-spacing: 12px;
+        }
+
+        /* --- 禮券 Logo 區域 --- */
+        .voucher-box {
+            position: absolute;
+            bottom: 35px;
+            width: 420px;
+            height: 150px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-content: center;
+            gap: 15px;
+            padding: 10px;
+        }
+        .v-left { left: 40px; }
+        .v-right { right: 40px; }
+        .v-item {
+            height: 42px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* 控制面板捲軸 */
+        .config-panel {
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <div class="max-w-[1450px] mx-auto flex flex-col xl:flex-row gap-8">
+        
+        <div class="w-full xl:w-1/3 bg-white p-6 rounded-2xl shadow-lg config-panel">
+            <h1 class="text-2xl font-bold mb-6 text-gray-800 border-b pb-4">囍帖編輯器 V2</h1>
+            
+            <div class="space-y-8">
+                <section>
+                    <h3 class="flex items-center font-bold text-red-700 mb-4">
+                        <span class="bg-red-100 px-2 py-1 rounded mr-2 text-sm">01</span> 西式囍帖資料
+                    </h3>
+                    <div class="grid grid-cols-1 gap-3">
+                        <input type="text" id="brideEn" placeholder="新娘名字 (Rosesalina)" value="Rosesalina" class="p-2 border rounded w-full" oninput="update()">
+                        <input type="text" id="groomEn" placeholder="新郎名字 (Benjamin)" value="Benjamin" class="p-2 border rounded w-full" oninput="update()">
+                        <input type="date" id="dateInput" value="2026-10-15" class="p-2 border rounded w-full" oninput="update()">
+                        <input type="text" id="venueEn" placeholder="場地 (FOUR SEASONS...)" value="FOUR SEASONS GRAND BALLROOM" class="p-2 border rounded w-full" oninput="update()">
+                        <input type="text" id="addrEn" placeholder="地址 (8 FINANCE STREET...)" value="8 FINANCE STREET, CENTRAL, HONG KONG" class="p-2 border rounded w-full" oninput="update()">
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="flex items-center font-bold text-red-700 mb-4">
+                        <span class="bg-red-100 px-2 py-1 rounded mr-2 text-sm">02</span> 中式囍帖資料
+                    </h3>
+                    <div class="grid grid-cols-2 gap-3 mb-3">
+                        <input type="text" id="brideCh" placeholder="新娘中文名" value="嘉欣" class="p-2 border rounded" oninput="update()">
+                        <input type="text" id="groomCh" placeholder="新郎中文名" value="大文" class="p-2 border rounded" oninput="update()">
+                    </div>
+                    <div class="space-y-3">
+                        <input type="text" id="venueCh" placeholder="場地中文" value="香港四季酒店 · 四季大禮堂" class="p-2 border rounded w-full" oninput="update()">
+                        <input type="text" id="addrCh" placeholder="地址中文" value="香港中環金融街 8 號" class="p-2 border rounded w-full" oninput="update()">
+                    </div>
+                </section>
+
+                <section>
+                    <h3 class="flex items-center font-bold text-red-700 mb-4">
+                        <span class="bg-red-100 px-2 py-1 rounded mr-2 text-sm">03</span> 禮券品牌 (雙側顯示)
+                    </h3>
+                    <div id="brandList" class="grid grid-cols-2 gap-2 text-sm">
+                        </div>
+                </section>
+            </div>
+        </div>
+
+        <div class="w-full xl:w-2/3 flex justify-center items-start bg-gray-300 p-6 rounded-2xl overflow-x-auto">
+            <div id="weddingCard" class="preview-wrapper">
+                
+                <div class="western-names">
+                    <span id="drawBrideEn"></span><br>
+                    <span style="font-size: 32px; font-family: serif;">&</span><br>
+                    <span id="drawGroomEn"></span>
+                </div>
+                <div class="western-details text-center">
+                    <div id="drawDateEn" class="text-xl mb-1 uppercase"></div>
+                    <div id="drawVenueEn" class="text-lg"></div>
+                    <div id="drawAddrEn" class="text-[10px] opacity-90"></div>
+                </div>
+
+                <div class="chinese-container">
+                    <div id="drawDateCh"></div>
+                    <div>為 <span class="font-bold">小女<span id="drawBrideCh"></span></span> <span class="font-bold">小兒<span id="drawGroomCh"></span></span> 結婚之喜</div>
+                    <div>是晚假座 <span id="drawVenueCh"></span></div>
+                    <div id="drawAddrCh"></div>
+                    <div class="ch-title">光臨 恭候</div>
+                    <div class="mt-24 text-sm">六時恭候 八時入席</div>
+                </div>
+
+                <div id="drawVouchersL" class="voucher-box v-left"></div>
+                <div id="drawVouchersR" class="voucher-box v-right"></div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // 16 個產品資料
+        const products = [
+            { id: 1, name: "美心西餅", logo: "https://www.bespokemall.hk/cdn/shop/files/Maxims_Logo.png" },
+            { id: 2, name: "奇華餅家", logo: "https://www.bespokemall.hk/cdn/shop/files/KeeWah_Logo.png" },
+            { id: 3, name: "聖安娜", logo: "https://www.bespokemall.hk/cdn/shop/files/SaintHonore_Logo.png" },
+            { id: 4, name: "Agnès b.", logo: "https://www.bespokemall.hk/cdn/shop/files/Agnesb_Logo.png" },
+            { id: 5, name: "Godiva", logo: "https://www.bespokemall.hk/cdn/shop/files/Godiva_Logo.png" },
+            { id: 6, name: "東海堂", logo: "https://www.bespokemall.hk/cdn/shop/files/Arome_Logo.png" }
+            // 可依需求增加至 16 個產品
+        ];
+
+        // 數字轉中文數字
+        function toChineseNum(num) {
+            const map = ['零','一','二','三','四','五','六','七','八','九','十'];
+            return num.toString().split('').map(n => map[parseInt(n)]).join('');
+        }
+
+        // 初始化品牌清單
+        function initBrands() {
+            const container = document.getElementById('brandList');
+            products.forEach(p => {
+                const label = document.createElement('label');
+                label.className = "flex items-center gap-2 p-2 bg-gray-50 border rounded cursor-pointer hover:bg-white transition";
+                label.innerHTML = `
+                    <input type="checkbox" value="${p.id}" class="brand-check" onchange="update()" checked>
+                    <span>${p.name}</span>
+                `;
+                container.appendChild(label);
+            });
+        }
+
+        // 更新預覽
+        function update() {
+            // 西式
+            document.getElementById('drawBrideEn').innerText = document.getElementById('brideEn').value;
+            document.getElementById('drawGroomEn').innerText = document.getElementById('groomEn').value;
+            document.getElementById('drawVenueEn').innerText = document.getElementById('venueEn').value;
+            document.getElementById('drawAddrEn').innerText = document.getElementById('addrEn').value;
+            
+            const dateVal = new Date(document.getElementById('dateInput').value);
+            const enOptions = { month: 'long', day: 'numeric', year: 'numeric' };
+            document.getElementById('drawDateEn').innerText = dateVal.toLocaleDateString('en-US', enOptions);
+
+            // 中式
+            document.getElementById('drawBrideCh').innerText = document.getElementById('brideCh').value;
+            document.getElementById('drawGroomCh').innerText = document.getElementById('groomCh').value;
+            document.getElementById('drawVenueCh').innerText = document.getElementById('venueCh').value;
+            document.getElementById('drawAddrCh').innerText = document.getElementById('addrCh').value;
+
+            // 中式日期計算
+            const weekDays = ["日", "一", "二", "三", "四", "五", "六"];
+            const chYear = toChineseNum(dateVal.getFullYear());
+            const chMonth = dateVal.getMonth() + 1;
+            const chDay = dateVal.getDate();
+            const chWeek = weekDays[dateVal.getDay()];
+
+            // 農曆模擬 (實際需串接 lunar.js，此處先以範例日期 2026-10-15 的農曆固定顯示)
+            let lunarStr = "丙午年九月 初六";
+            if (document.getElementById('dateInput').value !== '2026-10-15') {
+                lunarStr = "丙午年吉月 吉日";
+            }
+
+            document.getElementById('drawDateCh').innerHTML = `
+                謹訂於 公曆 ${chYear}年${chMonth}月${chDay}日 (星期${chWeek})<br>
+                農曆 ${lunarStr}
+            `;
+
+            // 禮券更新
+            const selectedIds = Array.from(document.querySelectorAll('.brand-check:checked')).map(cb => parseInt(cb.value));
+            const leftBox = document.getElementById('drawVouchersL');
+            const rightBox = document.getElementById('drawVouchersR');
+            
+            leftBox.innerHTML = '';
+            rightBox.innerHTML = '';
+
+            selectedIds.forEach(id => {
+                const brand = products.find(p => p.id === id);
+                const imgStr = `<img src="${brand.logo}" class="v-item" alt="${brand.name}">`;
+                leftBox.innerHTML += imgStr;
+                rightBox.innerHTML += imgStr;
+            });
+        }
+
+        // 啟動
+        initBrands();
+        update();
+    </script>
+</body>
+</html>
