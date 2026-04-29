@@ -10,7 +10,7 @@
         :root {
             --wedding-red: #632A31;
             --accent-blue: #3b82f6;
-            --glass-bg: rgba(15, 23, 42, 0.8);
+            --glass-bg: rgba(15, 23, 42, 0.85);
         }
         
         body {
@@ -22,43 +22,44 @@
             overflow: hidden;
         }
 
-        /* 側邊欄玻璃擬態 */
+        /* 側邊欄玻璃擬態 - 完全參照 bariumbw.github.io/app/ */
         .glass-sidebar {
             width: 420px;
             background: var(--glass-bg);
-            backdrop-filter: blur(16px);
+            backdrop-filter: blur(20px);
             border-right: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
             z-index: 50;
-            box-shadow: 20px 0 50px rgba(0,0,0,0.5);
+            box-shadow: 20px 0 50px rgba(0,0,0,0.6);
         }
 
         .nav-tabs {
             display: flex;
             padding: 20px 20px 0;
-            gap: 10px;
+            gap: 8px;
         }
 
         .tab-trigger {
             flex: 1;
             padding: 12px 5px;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 600;
             text-align: center;
             cursor: pointer;
-            color: #94a3b8;
+            color: #64748b;
             border-radius: 12px 12px 0 0;
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 255, 255, 0.02);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s;
+            transition: all 0.2s ease;
         }
 
         .tab-trigger.active {
             color: #fff;
-            background: linear-gradient(180deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0) 100%);
-            border-color: rgba(59, 130, 246, 0.5);
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.15) 0%, rgba(59, 130, 246, 0) 100%);
+            border-color: rgba(59, 130, 246, 0.4);
             border-bottom: none;
+            box-shadow: 0 -4px 12px rgba(59, 130, 246, 0.1);
         }
 
         .scroll-area {
@@ -67,40 +68,42 @@
             padding: 25px;
             scrollbar-width: none;
         }
+        .scroll-area::-webkit-scrollbar { display: none; }
 
-        .input-group { margin-bottom: 20px; }
+        .input-group { margin-bottom: 18px; }
         .input-group label {
             display: block;
             font-size: 0.65rem;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            color: #64748b;
+            letter-spacing: 0.15em;
+            color: #94a3b8;
             margin-bottom: 8px;
         }
         .input-group input {
             width: 100%;
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 12px 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            padding: 10px 14px;
             color: #fff;
             font-size: 0.9rem;
+            transition: border 0.3s;
         }
         .input-group input:focus {
             outline: none;
             border-color: var(--accent-blue);
-            background: rgba(59, 130, 246, 0.05);
+            background: rgba(59, 130, 246, 0.03);
         }
 
         /* 預覽區域 */
         .preview-container {
             flex: 1;
-            background: #0f172a;
+            background: #070a13;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: auto;
-            padding: 50px;
+            padding: 40px;
         }
 
         .card-canvas {
@@ -110,10 +113,10 @@
             position: relative;
             background-image: url('5.jpg');
             background-size: cover;
-            box-shadow: 0 60px 120px -20px rgba(0,0,0,0.7);
+            box-shadow: 0 50px 100px rgba(0,0,0,0.8);
         }
 
-        /* 文字預覽 - 再次向上移 7 格 (累計 14 格/28px) */
+        /* 文字預覽 - 再度向上平移 15 格 (30px)，累計 58px */
         .preview-item {
             position: absolute;
             color: var(--wedding-red);
@@ -122,38 +125,40 @@
             align-items: center;
             text-align: center;
             pointer-events: none;
+            overflow: hidden; /* 配合自動縮小 */
         }
 
-        /* 西式定位二次修正 */
-        #pre-bE { top: 47px; left: 40px; width: 280px; height: 95px; font-family: 'Georgia', serif; font-style: italic; font-size: 40px; }
-        #pre-gE { top: 217px; left: 220px; width: 270px; height: 95px; font-family: 'Georgia', serif; font-style: italic; font-size: 40px; }
-        #pre-dE { top: 457px; left: 100px; width: 335px; height: 35px; font-weight: bold; font-size: 20px; }
-        #pre-vE { top: 517px; left: 80px; width: 335px; height: 35px; font-weight: bold; font-size: 18px; }
-        #pre-aE { top: 597px; left: 22px; width: 450px; height: 55px; font-size: 14px; align-items: flex-start; }
+        /* 西式定位三次修正 (Top 值減 30) */
+        #pre-bE { top: 17px; left: 40px; width: 280px; height: 95px; font-family: 'Georgia', serif; font-style: italic; font-size: 40px; }
+        #pre-gE { top: 187px; left: 220px; width: 270px; height: 95px; font-family: 'Georgia', serif; font-style: italic; font-size: 40px; }
+        #pre-dE { top: 427px; left: 100px; width: 335px; height: 35px; font-weight: bold; font-size: 20px; }
+        #pre-vE { top: 487px; left: 80px; width: 335px; height: 35px; font-weight: bold; font-size: 18px; }
+        #pre-aE { top: 567px; left: 22px; width: 450px; height: 55px; font-size: 14px; align-items: flex-start; }
 
-        /* 中式定位二次修正 */
+        /* 中式定位三次修正 (Top 值減 30) */
         .v-text { writing-mode: vertical-rl; line-height: 1.2; }
-        #pre-dC { top: 257px; right: 28px; height: 400px; width: 40px; font-size: 18px; }
-        #pre-lu { top: 257px; right: 75px; height: 400px; width: 40px; font-size: 16px; }
-        #pre-gC { top: 177px; right: 125px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
-        #pre-bC { top: 177px; right: 155px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
-        #pre-vN { top: 177px; right: 215px; height: 380px; width: 30px; font-size: 18px; }
-        #pre-vA { top: 177px; right: 245px; height: 380px; width: 30px; font-size: 14px; }
+        #pre-dC { top: 227px; right: 28px; height: 400px; width: 40px; font-size: 18px; }
+        #pre-lu { top: 227px; right: 75px; height: 400px; width: 40px; font-size: 16px; }
+        #pre-gC { top: 147px; right: 125px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
+        #pre-bC { top: 147px; right: 155px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
+        #pre-vN { top: 147px; right: 215px; height: 380px; width: 30px; font-size: 18px; }
+        #pre-vA { top: 147px; right: 245px; height: 380px; width: 30px; font-size: 14px; }
         
-        /* 父母名定位二次修正 */
-        .parent-box { top: 507px; right: 325px; width: 140px; height: 95px; display: flex; flex-direction: row-reverse; gap: 8px; }
+        /* 父母名定位三次修正 (Top 值減 30) */
+        .parent-box { top: 477px; right: 325px; width: 140px; height: 95px; display: flex; flex-direction: row-reverse; gap: 8px; }
         .p-name { writing-mode: vertical-rl; width: 28px; height: 100%; font-size: 18px; font-weight: bold; }
 
-        /* 底部產品顯示二次修正 (同樣向上移) */
-        .footer-pre { position: absolute; bottom: 63px; width: 455px; height: 145px; display: flex; gap: 15px; padding: 10px; }
+        /* 底部產品顯示三次修正 (Bottom 增加 30) */
+        .footer-pre { position: absolute; bottom: 93px; width: 455px; height: 145px; display: flex; gap: 15px; padding: 10px; }
         .footer-left { left: 22px; } .footer-right { right: 22px; }
         .pre-logo { width: 110px; height: 100%; display: flex; align-items: center; justify-content: center; }
         .pre-logo img { max-width: 100%; max-height: 50px; }
         .pre-info { flex: 1; text-align: left; display: flex; flex-direction: column; justify-content: flex-start; }
         .pre-pname { font-weight: bold; font-size: 16px; height: 25px; margin-bottom: 5px; color: var(--wedding-red); }
-        .pre-tc { font-size: 10px; line-height: 1.2; overflow: hidden; color: var(--wedding-red); }
+        .pre-tc { font-size: 10px; line-height: 1.1; overflow: hidden; color: var(--wedding-red); }
 
-        .prod-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 15px; margin-bottom: 12px; }
+        .prod-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 15px; margin-bottom: 12px; transition: 0.3s; }
+        .prod-card:hover { border-color: var(--accent-blue); background: rgba(59, 130, 246, 0.05); }
     </style>
 </head>
 <body>
@@ -161,9 +166,9 @@
     <div class="flex h-screen">
         <aside class="glass-sidebar">
             <div class="p-6">
-                <div class="flex items-center gap-3 mb-2">
-                    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">B</div>
-                    <span class="text-xl font-bold tracking-tight">Bespoke Mall <span class="text-blue-500 text-xs">APP V2</span></span>
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 bg-blue-600 rounded flex items-center justify-center font-bold text-white shadow-lg">B</div>
+                    <span class="text-xl font-bold tracking-tight">Bespoke Mall</span>
                 </div>
             </div>
 
@@ -241,8 +246,8 @@
             </div>
         </main>
     </div>
-<script>
-        // 1. 分頁切換邏輯
+    <script>
+        // 1. 分頁控制邏輯
         function switchTab(evt, tabName) {
             const contents = document.querySelectorAll('.tab-content');
             const tabs = document.querySelectorAll('.tab-trigger');
@@ -252,11 +257,11 @@
             evt.currentTarget.classList.add('active');
         }
 
-        // 2. 16 款產品完整數據 (包含 T&C)
+        // 2. 16 款產品數據 (保留完整 T&C 內容)
         const products = [
             { b: "agnès b.", n: "$50 心意禮券", t: "The e-voucher entitles the holder a cash value of HK$50 spending in any of agnès b. / SPORT b. / agnès b. CAFÉ / agnès b. FLEURISTE / agnès b. DÉLICES shops (except SOGO & Horizon Outlet Store) in Hong Kong. For the corresponding shop address, please refer to https://www.agnesb.com.hk/storeLocator. The e-voucher can only be used on or before the expiry date as shown on the e-voucher. Request for extension of validity of this e-voucher will not be entertained. Any unused amount of this e-voucher will be forfeited. The e-voucher must be presented and can only be used once and will be collected upon redemption, after which it will become invalid. No replacement will be issued if the e-voucher is lost or damaged. The e-voucher is non-transferable, non-resellable, and cannot be cancelled, or exchanged for cash, discounts, credit, or other products or services, and it cannot be used in conjunction with any other vouchers, discounts, privilege cards and other promotional offers. Agnès b. HK Limited reserves the right to amend and withdraw any terms and conditions or terminate this offer without prior notice. In case of any disputes relating to the e-voucher, the decision of Agnès b. HK Limited shall remain final and binding on all relevant parties." },
             { b: "agnès b.", n: "$100 心意禮券", t: "The e-voucher entitles the holder a cash value of HK$100 spending in any of agnès b. / SPORT b. / agnès b. CAFÉ / agnès b. FLEURISTE / agnès b. DÉLICES shops (except SOGO & Horizon Outlet Store) in Hong Kong. For the corresponding shop address, please refer to https://www.agnesb.com.hk/storeLocator. The e-voucher can only be used on or before the expiry date as shown on the e-voucher. Request for extension of validity of this e-voucher will not be entertained. Any unused amount of this e-voucher will be forfeited. The e-voucher must be presented and can only be used once and will be collected upon redemption, after which it will become invalid. No replacement will be issued if the e-voucher is lost or damaged. The e-voucher is non-transferable, non-resellable, and cannot be cancelled, or exchanged for cash, discounts, credit, or other products or services, and it cannot be used in conjunction with any other vouchers, discounts, privilege cards and other promotional offers. Agnès b. HK Limited reserves the right to amend and withdraw any terms and conditions or terminate this offer without prior notice. In case of any disputes relating to the e-voucher, the decision of Agnès b. HK Limited shall remain final and binding on all relevant parties." },
-            { b: "Godiva", n: "HK$50 禮券", t: "此GODIVA電子禮券有效期由購買日起計數，最少11個月。此禮券持有人可在本券有效期內於任何香港GODIVA專門店 (機場、免稅店、祟光銅鑼灣百貨公司及期間限定店除外) 換取同等價值貨品，逾期無效。此電子禮券只可使用一次並以GODIVA的系統記錄為準。影印本及螢幕截圖恕不接納。此電子禮券不適用於電話、傳真或網上購物。此電子禮券 (或其部分面值) 不能用以套取現金。持有人不得折回現金或以此電子禮券兌換金。此電子禮券不可與GODIVA VIP咭或其他推廣優惠一併使用。如對此電子禮券有任何爭議，Godiva Chocolatier (Asia) Limited保留最終決定權。分店地址︰https://www.godiva.com.hk/boutiques.html" },
+            { b: "Godiva", n: "HK$50 禮券", t: "此GODIVA電子禮券有效期由購買日起計數，最少11個月。此禮券持有人可在本券有效期內於任何香港GODIVA專門店 (機場、免稅店、祟光銅鑼灣百貨公司及期間限定店除外) 換取同等價值貨品，逾期無效。此電子禮券只可使用一次並以GODIVA的系統記錄為準。影印本及螢幕截圖恕不接納。此電子禮券不適用於電話、傳真或網上購物。此電子禮券 (或其部分面值) 不能用以套取現金。持有人不得折回現金編以此電子禮券兌換金。此電子禮券不可與GODIVA VIP咭或其他推廣優惠一併使用。如對此電子禮券有任何爭議，Godiva Chocolatier (Asia) Limited保留最終決定權。分店地址︰https://www.godiva.com.hk/boutiques.html" },
             { b: "Godiva", n: "HK$100 禮券", t: "使用條款: 此禮券持有人可在本券有效期內於任何香港GODIVA專門店 (機場、免稅店、祟光銅鑼灣百貨公司及期間限定店除外) 換取同等價值貨品，逾期無效。此電子禮券只可使用一次並以GODIVA的系統記錄為準。影印本及螢幕截圖恕不接納。此電子禮券不適用於電話、傳真或網上購物。此電子禮券 (或其部分面值) 不能用以套取現金。持有人不得折回現金或以此電子禮券兌換金。此電子禮券不可與GODIVA VIP咭或其他推廣優惠一併使用。如對此電子禮券有任何爭議，Godiva Chocolatier (Asia) Limited保留最終決定權。分店地址︰https://www.godiva.com.hk/boutiques.html" },
             { b: "Lady M", n: "$80 禮券", t: "voucher Terms & Conditions: The certificate can only be used to redeem takeaway cakes and drinks at Lady M Hong Kong. The certificate can only be used in Hong Kong. The certificate is not applicable for any whole cake pre-order, merchandize or dine-in order. The certificate must be presented upon purchase. The certificate cannot be used in conjunction with other promotions. The certificate is only valid when stamped by Lady M Hong Kong. The certificate is non-refundable or non-exchangeable for cash. The redemption item is subject to availability. Damaged, altered or expired certificate will not be accepted. Lady M Hong Kong reserves the right to amend the above terms without prior notice. Lady M Hong Kong reserves the right of all final decisions in case of any dispute." },
             { b: "Lady M", n: "$150 禮券", t: "voucher Terms & Conditions: The certificate can only be used to redeem takeaway cakes and drinks at Lady M Hong Kong. The certificate can only be used in Hong Kong. The certificate is not applicable for any whole cake pre-order, merchandize or dine-in order. The certificate must be presented upon purchase. The certificate cannot be used in conjunction with other promotions. The certificate is only valid when stamped by Lady M Hong Kong. The certificate is non-refundable or non-exchangeable for cash. The redemption item is subject to availability. Damaged, altered or expired certificate will not be accepted. Lady M Hong Kong reserves the right to amend the above terms without prior notice. Lady M Hong Kong reserves the right of all final decisions in case of any dispute." },
@@ -281,11 +286,11 @@
             "奇華餅家": "https://media.langhamplace.com.hk/cms/store/ENcscXXFp.png"
         };
 
-        // 3. 全自動縮放核心算法 (當字數多時自動縮小字體)
+        // 3. 全自動縮放核心算法
         function autoShrink(el, maxH, baseSize) {
             let size = baseSize;
             el.style.fontSize = size + "px";
-            // 當高度溢出或寬度溢出時遞減
+            // 當高度溢出時遞減 0.5px
             while ((el.scrollHeight > maxH || el.scrollWidth > el.offsetWidth) && size > 6) {
                 size -= 0.5;
                 el.style.fontSize = size + "px";
@@ -299,7 +304,7 @@
 
         // 4. 主要渲染邏輯
         function render() {
-            // 西式內容
+            // 西式內容映射
             document.getElementById('pre-bE').innerText = document.getElementById('in-bE').value;
             document.getElementById('pre-gE').innerText = document.getElementById('in-gE').value;
             document.getElementById('pre-vE').innerText = document.getElementById('in-vE').value;
@@ -307,7 +312,7 @@
             const dw = new Date(document.getElementById('in-dE').value);
             document.getElementById('pre-dE').innerText = dw.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
 
-            // 中式內容
+            // 中式內容映射
             document.getElementById('pre-bC').innerText = document.getElementById('in-bC').value;
             document.getElementById('pre-gC').innerText = document.getElementById('in-gC').value;
             document.getElementById('pre-vN').innerText = document.getElementById('in-vN').value;
@@ -317,13 +322,13 @@
             const week = ["日","一","二","三","四","五","六"][dc.getDay()];
             document.getElementById('pre-dC').innerText = `公曆 ${toChineseNum(dc.getFullYear())}年${dc.getMonth()+1}月${dc.getDate()}日 (星期${week})`;
 
-            // 父母名內容
+            // 父母名映射
             document.getElementById('pre-bF').innerText = document.getElementById('in-bF').value;
             document.getElementById('pre-bM').innerText = document.getElementById('in-bM').value;
             document.getElementById('pre-gF').innerText = document.getElementById('in-gF').value;
             document.getElementById('pre-gM').innerText = document.getElementById('in-gM').value;
 
-            // 執行自動縮放 (高度基準與框的大小一致)
+            // 執行自動縮放
             autoShrink(document.getElementById('pre-bE'), 95, 40);
             autoShrink(document.getElementById('pre-gE'), 95, 40);
             autoShrink(document.getElementById('pre-vE'), 35, 18);
@@ -331,7 +336,7 @@
             autoShrink(document.getElementById('pre-vN'), 380, 18);
             autoShrink(document.getElementById('pre-vA'), 380, 14);
 
-            // 底部禮券聯動邏輯
+            // 底部禮券聯動
             const selected = document.querySelectorAll('.p-check:checked');
             const leftBox = { logo: 'l-logo', name: 'l-pname', tc: 'l-tc' };
             const rightBox = { logo: 'r-logo', name: 'r-pname', tc: 'r-tc' };
@@ -352,7 +357,7 @@
             });
         }
 
-        // 5. 初始化產品清單
+        // 5. 初始化側邊欄清單
         const container = document.getElementById('product-list');
         products.forEach((p, i) => {
             const div = document.createElement('div');
