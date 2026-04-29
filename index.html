@@ -41,8 +41,8 @@
         #pre-vN { top: 25px; right: 183px; height: 380px; width: 30px; font-size: 18px; }
         #pre-vA { top: 77px; right: 161px; height: 380px; width: 30px; font-size: 16px; }
         
-        /* 時間顯示：向左 60格(-120px), 向上 50格(-100px) */
-        #pre-time-box { top: 30px; right: 340px; height: 300px; width: 40px; font-size: 22px; font-weight: bold; display: flex; flex-direction: column; align-items: center; gap: 40px; }
+        /* 時間顯示：左移 60 (-120px), 上移 30 (-60px) */
+        #pre-time-box { top: 70px; right: 340px; height: 300px; width: 40px; font-size: 22px; font-weight: bold; display: flex; flex-direction: column; align-items: center; gap: 40px; }
 
         .parent-box { top: 357px; right: 305px; width: 140px; height: 95px; display: flex; flex-direction: row-reverse; gap: 8px; }
         .p-name { writing-mode: vertical-rl; width: 28px; height: 100%; font-size: 18px; font-weight: bold; }
@@ -60,7 +60,7 @@
             <div id="tab-w" class="tab-content">
                 <div class="input-group"><label>Bride Name</label><input type="text" id="in-bE" value="Rosesalina" oninput="render()"></div>
                 <div class="input-group"><label>Groom Name</label><input type="text" id="in-gE" value="Benjamin" oninput="render()"></div>
-                <div class="input-group"><label>Wedding Date (選單式)</label><input type="date" id="in-date" value="2026-04-29" oninput="render()"></div>
+                <div class="input-group"><label>Wedding Date</label><input type="date" id="in-date" value="2026-04-29" oninput="render()"></div>
                 <div class="input-group"><label>Venue Name</label><input type="text" id="in-vE" value="FOUR SEASONS GRAND BALLROOM" oninput="render()"></div>
                 <div class="input-group"><label>Venue Address</label><input type="text" id="in-aE" value="8 FINANCE STREET, CENTRAL, HONG KONG" oninput="render()"></div>
             </div>
@@ -70,8 +70,8 @@
                     <div class="input-group"><label>新郎</label><input type="text" id="in-gC" value="大文" oninput="render()"></div>
                 </div>
                 <div class="grid grid-cols-2 gap-2 border-t border-white/10 pt-4 mt-2">
-                    <div class="input-group"><label>恭候時間 (數字)</label><input type="number" id="in-tWait" value="5" oninput="render()"></div>
-                    <div class="input-group"><label>入席時間 (數字)</label><input type="number" id="in-tSit" value="8" oninput="render()"></div>
+                    <div class="input-group"><label>恭候時間 (數字輸入)</label><input type="number" id="in-tWait" value="5" oninput="render()"></div>
+                    <div class="input-group"><label>入席時間 (數字輸入)</label><input type="number" id="in-tSit" value="8" oninput="render()"></div>
                 </div>
                 <div class="input-group"><label>場地名稱</label><input type="text" id="in-vN" value="香港四季酒店 · 四季大禮堂" oninput="render()"></div>
                 <div class="input-group"><label>場地地址</label><input type="text" id="in-vA" value="香港中環金融街 8 號" oninput="render()"></div>
@@ -113,17 +113,15 @@
             evt.currentTarget.classList.add('active');
         }
 
-        // 中國數字轉換核心邏輯
-        function toChineseNum(n, type = 'default') {
+        // 強力中國數字轉換：確保完全沒有阿拉伯數字
+        function toFullChineseNum(n, type = 'default') {
             const map = ['零','一','二','三','四','五','六','七','八','九','十'];
             if (!n && n !== 0) return "";
             
-            // 年份轉換 (二零二六)
             if (type === 'year') {
                 return n.toString().split('').map(i => map[parseInt(i)]).join('');
             }
             
-            // 日期/時間轉換 (一至三十一)
             n = parseInt(n);
             if (n <= 10) return map[n];
             if (n < 20) return '十' + (n % 10 === 0 ? '' : map[n % 10]);
@@ -131,58 +129,62 @@
             return '三十' + (n % 10 === 0 ? '' : map[n % 10]);
         }
 
-        // 農曆精準轉換
-        function getLunarFormatted(dateStr) {
+        // 精準農曆與生肖轉換
+        function getLunarInfo(dateStr) {
             const date = new Date(dateStr);
             const yearFormatter = new Intl.DateTimeFormat('zh-Hant-u-ca-chinese', { year: 'numeric' });
-            const lunarYearName = yearFormatter.format(date).replace('年', '');
+            let lunarYear = yearFormatter.format(date).replace('年', '');
             
-            // 取得生肖 (固定演算法)
+            // 生肖計算
             const zodiacs = ["鼠","牛","虎","兔","龍","蛇","馬","羊","猴","雞","狗","豬"];
             const zodiacIndex = (date.getFullYear() - 4) % 12;
             const zodiac = zodiacs[zodiacIndex];
 
-            // 取得農曆月份與日期
+            // 月份與日期 (確保為純中文)
             const monthFormatter = new Intl.DateTimeFormat('zh-Hant-u-ca-chinese', { month: 'long' });
             const dayFormatter = new Intl.DateTimeFormat('zh-Hant-u-ca-chinese', { day: 'numeric' });
-            const lunarMonth = monthFormatter.format(date);
-            const lunarDay = dayFormatter.format(date);
             
-            return `歲次 ${lunarYearName}年（${zodiac}年）${lunarMonth}${lunarDay}`;
+            let lunarM = monthFormatter.format(date);
+            let lunarD = dayFormatter.format(date);
+
+            // 有些瀏覽器 Intl 會返回數字，這裡做最後一層純化過濾
+            const clean = (str) => str.replace(/\d+/g, (m) => toFullChineseNum(m));
+            
+            return `歲次 ${clean(lunarYear)}年（${zodiac}年）${clean(lunarM)}${clean(lunarD)}`;
         }
 
         function render() {
             const dateVal = document.getElementById('in-date').value;
             const dt = new Date(dateVal);
 
-            // Western
+            // --- Western ---
             document.getElementById('pre-bE').innerText = document.getElementById('in-bE').value;
             document.getElementById('pre-gE').innerText = document.getElementById('in-gE').value;
             document.getElementById('pre-vE').innerText = document.getElementById('in-vE').value;
             document.getElementById('pre-aE').innerText = document.getElementById('in-aE').value;
             document.getElementById('pre-dE').innerText = dt.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
 
-            // Chinese
+            // --- Chinese ---
             document.getElementById('pre-bC').innerText = document.getElementById('in-bC').value;
             document.getElementById('pre-gC').innerText = document.getElementById('in-gC').value;
             document.getElementById('pre-vN').innerText = document.getElementById('in-vN').value;
             document.getElementById('pre-vA').innerText = document.getElementById('in-vA').value;
             
-            // 公曆轉換為全中國數字
-            const cy = toChineseNum(dt.getFullYear(), 'year');
-            const cm = toChineseNum(dt.getMonth() + 1);
-            const cd = toChineseNum(dt.getDate());
+            // 公曆日期轉純中國數字
+            const cy = toFullChineseNum(dt.getFullYear(), 'year');
+            const cm = toFullChineseNum(dt.getMonth() + 1);
+            const cd = toFullChineseNum(dt.getDate());
             const week = ["日","一","二","三","四","五","六"][dt.getDay()];
             document.getElementById('pre-dC').innerText = `公曆 ${cy}年${cm}月${cd}日 (星期${week})`;
 
-            // 農曆 (歲次格式 + 全中國數字日期)
-            document.getElementById('pre-lu').innerText = getLunarFormatted(dateVal);
+            // 農曆日期轉純中國數字 (含生肖)
+            document.getElementById('pre-lu').innerText = getLunarInfo(dateVal);
 
-            // 時間數字 (全面轉中國數字)
-            document.getElementById('val-wait').innerText = toChineseNum(document.getElementById('in-tWait').value);
-            document.getElementById('val-sit').innerText = toChineseNum(document.getElementById('in-tSit').value);
+            // 時間轉純中國數字
+            document.getElementById('val-wait').innerText = toFullChineseNum(document.getElementById('in-tWait').value);
+            document.getElementById('val-sit').innerText = toFullChineseNum(document.getElementById('in-tSit').value);
 
-            // 家長部分
+            // 家長
             document.getElementById('pre-bM').innerText = document.getElementById('in-bM').value;
             document.getElementById('pre-bF').innerText = document.getElementById('in-bF').value;
             document.getElementById('pre-gM').innerText = document.getElementById('in-gM').value;
