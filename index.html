@@ -10,43 +10,39 @@
         :root { --wedding-red: #632A31; --accent-blue: #3b82f6; --glass-bg: rgba(15, 23, 42, 0.9); }
         body { background: #020617; font-family: 'Inter', sans-serif; color: #f8fafc; margin: 0; min-height: 100vh; }
         
-        /* 側邊欄 */
         .glass-sidebar { width: 400px; background: var(--glass-bg); backdrop-filter: blur(20px); border-right: 1px solid rgba(255, 255, 255, 0.1); display: flex; flex-direction: column; height: 100vh; position: fixed; left: 0; top: 0; z-index: 50; }
         .nav-tabs { display: flex; padding: 20px; gap: 8px; }
         .tab-trigger { flex: 1; padding: 10px; font-size: 0.7rem; font-weight: 600; text-align: center; cursor: pointer; color: #64748b; border-radius: 8px; background: rgba(255, 255, 255, 0.03); transition: 0.2s; }
         .tab-trigger.active { color: #fff; background: var(--accent-blue); }
         .scroll-area { flex: 1; overflow-y: auto; padding: 20px; }
         
-        /* 輸入框樣式 */
         .input-group { margin-bottom: 12px; }
         .input-group label { display: block; font-size: 0.6rem; text-transform: uppercase; color: #94a3b8; margin-bottom: 4px; }
         .input-group input { width: 100%; background: #000; border: 1px solid #334155; border-radius: 6px; padding: 8px 12px; color: #fff; font-size: 0.9rem; }
 
-        /* 預覽容器 */
         .preview-container { margin-left: 400px; min-height: 100vh; display: flex; justify-content: center; align-items: center; background: #070a13; padding: 40px; }
         .card-canvas { width: 1000px; height: 707px; position: relative; background-image: url('5.jpg'); background-size: cover; box-shadow: 0 40px 80px rgba(0,0,0,0.6); background-color: #fff; }
         .preview-item { position: absolute; color: var(--wedding-red); display: flex; justify-content: center; align-items: center; text-align: center; pointer-events: none; }
 
         /* --- WESTERN 定位更新 --- */
-        #pre-bE { top: 17px; left: 34px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; } /* 左移 5 (44-10) */
-        #pre-gE { top: 187px; left: 212px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; } /* 左移 1 (214-2) */
-        #pre-dE { top: 347px; left: 84px; width: 335px; height: 35px; font-weight: bold; font-size: 20px; } /* 左移 2 (88-4) */
+        #pre-bE { top: 17px; left: 24px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; } /* 左移 5 (34-10) */
+        #pre-gE { top: 179px; left: 210px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; } /* 左 1 (-2), 上 4 (-8) */
+        #pre-dE { top: 347px; left: 80px; width: 335px; height: 35px; font-weight: bold; font-size: 20px; } /* 左 2 (84-4) */
         #pre-vE { top: 407px; left: 80px; width: 335px; height: 35px; font-weight: bold; font-size: 18px; }
         #pre-aE { top: 437px; left: 22px; width: 450px; height: 55px; font-size: 14px; align-items: flex-start; }
 
         /* --- CHINESE 定位更新 --- */
         .v-text { writing-mode: vertical-rl; line-height: 1.2; }
-        #pre-dC { top: 143px; right: 26px; height: 400px; width: 40px; font-size: 18px; } /* 右 1 (-2), 上 2 (-4) */
-        #pre-lu { top: 77px; right: 83px; height: 400px; width: 40px; font-size: 16px; } /* 左 4 (+8), 上 20 (-40) */
-        #pre-gC { top: 101px; right: 99px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; } /* 下 1 (+2) */
-        #pre-bC { top: 101px; right: 129px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; } /* 下 1 (+2) */
-        #pre-vN { top: 27px; right: 183px; height: 380px; width: 30px; font-size: 18px; } /* 上 1 (-2) */
-        #pre-vA { top: 61px; right: 163px; height: 380px; width: 30px; font-size: 14px; } /* 左 15 回撥 1 (即右移1), 下 15+2 (+4) */
+        #pre-dC { top: 143px; right: 22px; height: 400px; width: 40px; font-size: 18px; } /* 右 2 (26-4) */
+        #pre-lu { top: 81px; right: 79px; height: 400px; width: 40px; font-size: 16px; } /* 右 2 (83-4), 下 2 (+4) */
+        #pre-gC { top: 101px; right: 99px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
+        #pre-bC { top: 101px; right: 129px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
+        #pre-vN { top: 25px; right: 183px; height: 380px; width: 30px; font-size: 18px; } /* 上 1 (-2) */
+        #pre-vA { top: 67px; right: 159px; height: 380px; width: 30px; font-size: 14px; } /* 右 2 (163-4), 下 3 (+6) */
         
         .parent-box { top: 357px; right: 305px; width: 140px; height: 95px; display: flex; flex-direction: row-reverse; gap: 8px; }
         .p-name { writing-mode: vertical-rl; width: 28px; height: 100%; font-size: 18px; font-weight: bold; }
 
-        /* 底部產品展示 */
         .footer-pre { position: absolute; bottom: 93px; width: 455px; height: 145px; display: flex; gap: 15px; }
         .footer-left { left: 22px; } .footer-right { right: 22px; }
         .pre-logo img { max-height: 40px; width: auto; margin-bottom: 4px; }
@@ -159,7 +155,6 @@
         }
 
         function render() {
-            // 西式
             document.getElementById('pre-bE').innerText = document.getElementById('in-bE').value;
             document.getElementById('pre-gE').innerText = document.getElementById('in-gE').value;
             document.getElementById('pre-vE').innerText = document.getElementById('in-vE').value;
@@ -167,7 +162,6 @@
             const dw = new Date(document.getElementById('in-dE').value);
             document.getElementById('pre-dE').innerText = dw.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
 
-            // 中式
             document.getElementById('pre-bC').innerText = document.getElementById('in-bC').value;
             document.getElementById('pre-gC').innerText = document.getElementById('in-gC').value;
             document.getElementById('pre-vN').innerText = document.getElementById('in-vN').value;
