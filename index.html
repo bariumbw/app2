@@ -55,13 +55,12 @@
         <div class="nav-tabs">
             <div class="tab-trigger active" onclick="switchTab(event, 'tab-w')">WESTERN</div>
             <div class="tab-trigger" onclick="switchTab(event, 'tab-e')">CHINESE</div>
-            <div class="tab-trigger" onclick="switchTab(event, 'tab-p')">VOUCHER</div>
         </div>
         <div class="scroll-area">
             <div id="tab-w" class="tab-content">
                 <div class="input-group"><label>Bride Name</label><input type="text" id="in-bE" value="Rosesalina" oninput="render()"></div>
                 <div class="input-group"><label>Groom Name</label><input type="text" id="in-gE" value="Benjamin" oninput="render()"></div>
-                <div class="input-group"><label>Wedding Date</label><input type="date" id="in-date" value="2026-10-15" oninput="render()"></div>
+                <div class="input-group"><label>Wedding Date</label><input type="date" id="in-date" value="2026-04-29" oninput="render()"></div>
                 <div class="input-group"><label>Venue Name</label><input type="text" id="in-vE" value="FOUR SEASONS GRAND BALLROOM" oninput="render()"></div>
                 <div class="input-group"><label>Venue Address</label><input type="text" id="in-aE" value="8 FINANCE STREET, CENTRAL, HONG KONG" oninput="render()"></div>
             </div>
@@ -81,7 +80,6 @@
                     <div class="input-group"><label>新郎家長</label><input type="text" id="in-gF" value="建國" oninput="render()"><input type="text" id="in-gM" value="麗珍" oninput="render()" class="mt-2"></div>
                 </div>
             </div>
-            <div id="tab-p" class="tab-content hidden"><div id="product-list"></div></div>
         </div>
     </aside>
 
@@ -115,53 +113,54 @@
             evt.currentTarget.classList.add('active');
         }
 
-        // 通用中國數字轉換 (支持年份與日期)
         function toChineseNum(n, isYear = false) {
             const map = ['零','一','二','三','四','五','六','七','八','九','十'];
-            if (!n) return "";
-            if (isYear) {
-                return n.toString().split('').map(i => map[parseInt(i)]).join('');
-            }
+            if (!n && n !== 0) return "";
+            if (isYear) return n.toString().split('').map(i => map[parseInt(i)]).join('');
             n = parseInt(n);
             if (n <= 10) return map[n];
             if (n < 20) return '十' + (n % 10 === 0 ? '' : map[n % 10]);
             return map[Math.floor(n / 10)] + '十' + (n % 10 === 0 ? '' : map[n % 10]);
         }
 
-        // 格式化農曆：歲次 丙午年 三月十三
+        // 取得農曆格式：歲次 丙午年（馬年）三月十三
         function getLunarFormatted(dateStr) {
             const date = new Date(dateStr);
-            const formatter = new Intl.DateTimeFormat('zh-Hant-u-ca-chinese', {
-                year: 'numeric', month: 'long', day: 'numeric'
-            });
-            const parts = formatter.formatToParts(date);
-            let y = "", m = "", d = "";
-            parts.forEach(p => {
-                if(p.type === 'year') y = p.value;
-                if(p.type === 'month') m = p.value;
-                if(p.type === 'day') d = p.value;
-            });
-            return `歲次 ${y}年${m}${d}`;
+            // 透過 Intl 取得天干地支年份
+            const yearFormatter = new Intl.DateTimeFormat('zh-Hant-u-ca-chinese', { year: 'numeric' });
+            const lunarYear = yearFormatter.format(date).replace('年', '');
+            
+            // 取得生肖
+            const zodiacs = ["鼠","牛","虎","兔","龍","蛇","馬","羊","猴","雞","狗","豬"];
+            const stemBranchYear = (date.getFullYear() - 4) % 60;
+            const zodiacIndex = stemBranchYear % 12;
+            const zodiac = zodiacs[zodiacIndex];
+
+            // 取得月份與日期
+            const monthDayFormatter = new Intl.DateTimeFormat('zh-Hant-u-ca-chinese', { month: 'long', day: 'numeric' });
+            const lunarMD = monthDayFormatter.format(date);
+            
+            return `歲次 ${lunarYear}年（${zodiac}年）${lunarMD}`;
         }
 
         function render() {
             const dateVal = document.getElementById('in-date').value;
             const dt = new Date(dateVal);
 
-            // --- Western ---
+            // Western
             document.getElementById('pre-bE').innerText = document.getElementById('in-bE').value;
             document.getElementById('pre-gE').innerText = document.getElementById('in-gE').value;
             document.getElementById('pre-vE').innerText = document.getElementById('in-vE').value;
             document.getElementById('pre-aE').innerText = document.getElementById('in-aE').value;
             document.getElementById('pre-dE').innerText = dt.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
 
-            // --- Chinese ---
+            // Chinese
             document.getElementById('pre-bC').innerText = document.getElementById('in-bC').value;
             document.getElementById('pre-gC').innerText = document.getElementById('in-gC').value;
             document.getElementById('pre-vN').innerText = document.getElementById('in-vN').value;
             document.getElementById('pre-vA').innerText = document.getElementById('in-vA').value;
             
-            // 公曆日期轉中國數字
+            // 公曆轉換為中國數字
             const cy = toChineseNum(dt.getFullYear(), true);
             const cm = toChineseNum(dt.getMonth() + 1);
             const cd = toChineseNum(dt.getDate());
@@ -176,10 +175,10 @@
             document.getElementById('val-sit').innerText = toChineseNum(document.getElementById('in-tSit').value);
 
             // 家長
-            document.getElementById('pre-bF').innerText = document.getElementById('in-bF').value;
             document.getElementById('pre-bM').innerText = document.getElementById('in-bM').value;
-            document.getElementById('pre-gF').innerText = document.getElementById('in-gF').value;
+            document.getElementById('pre-bF').innerText = document.getElementById('in-bF').value;
             document.getElementById('pre-gM').innerText = document.getElementById('in-gM').value;
+            document.getElementById('pre-gF').innerText = document.getElementById('in-gF').value;
         }
 
         window.onload = render;
