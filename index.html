@@ -31,27 +31,27 @@
         .preview-item { position: absolute; color: var(--wedding-red); display: flex; justify-content: center; align-items: center; text-align: center; pointer-events: none; }
 
         /* --- WESTERN 定位更新 --- */
-        #pre-bE { top: 17px; left: 50px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; } /* 右移 5 (left+10) */
-        #pre-gE { top: 187px; left: 210px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; } /* 左移 5 (left-10) */
-        #pre-dE { top: 347px; left: 94px; width: 335px; height: 35px; font-weight: bold; font-size: 20px; } /* 左移 3 (left-6) */
+        #pre-bE { top: 17px; left: 44px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; } /* 左移 3 (50-6) */
+        #pre-gE { top: 187px; left: 214px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; } /* 右移 2 (210+4) */
+        #pre-dE { top: 347px; left: 88px; width: 335px; height: 35px; font-weight: bold; font-size: 20px; } /* 再左移 3 (94-6) */
         #pre-vE { top: 407px; left: 80px; width: 335px; height: 35px; font-weight: bold; font-size: 18px; }
         #pre-aE { top: 437px; left: 22px; width: 450px; height: 55px; font-size: 14px; align-items: flex-start; }
 
         /* --- CHINESE 定位更新 --- */
         .v-text { writing-mode: vertical-rl; line-height: 1.2; }
-        #pre-dC { top: 197px; right: 28px; height: 400px; width: 40px; font-size: 18px; } /* 上移 15 (top-30) */
-        #pre-lu { top: 187px; right: 75px; height: 400px; width: 40px; font-size: 16px; } /* 上移 20 (top-40) */
+        #pre-dC { top: 147px; right: 28px; height: 400px; width: 40px; font-size: 18px; } /* 向上移 25 (197-50) */
+        #pre-lu { top: 117px; right: 75px; height: 400px; width: 40px; font-size: 16px; } /* 向上移 35 (187-70) */
         
-        /* 新娘新郎：右移 1 (right-2), 下移 5 (top+10) */
-        #pre-gC { top: 97px; right: 99px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
-        #pre-bC { top: 97px; right: 129px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
+        /* 新娘新郎：向下移 1 (top+2) */
+        #pre-gC { top: 99px; right: 99px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
+        #pre-bC { top: 99px; right: 129px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
         
-        /* 場地名稱：左移 3 (right+6), 向上移 8 (top-16) */
-        #pre-vN { top: 31px; right: 177px; height: 380px; width: 30px; font-size: 18px; }
-        /* 場地地址：左移 10 (right+20), 下移 10 (top+20) */
-        #pre-vA { top: 27px; right: 135px; height: 380px; width: 30px; font-size: 14px; }
+        /* 場地名稱：左移 3 (right+6), 向上移 1 (top-2) */
+        #pre-vN { top: 29px; right: 183px; height: 380px; width: 30px; font-size: 18px; }
+        /* 場地地址：左移 15 (right+30), 下移 15 (top+30) */
+        #pre-vA { top: 57px; right: 165px; height: 380px; width: 30px; font-size: 14px; }
         
-        /* 父母名：右移 5 (right-10), 上移 35 (top-70) */
+        /* 父母名 (保持上一版位置) */
         .parent-box { top: 357px; right: 305px; width: 140px; height: 95px; display: flex; flex-direction: row-reverse; gap: 8px; }
         .p-name { writing-mode: vertical-rl; width: 28px; height: 100%; font-size: 18px; font-weight: bold; }
 
@@ -65,174 +65,119 @@
         .prod-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; padding: 12px; margin-bottom: 10px; }
     </style>
 </head>
-<body>
-    <div class="flex h-screen">
-        <aside class="glass-sidebar">
-            <div class="p-6 font-bold text-xl">Bespoke Mall Designer</div>
-            <div class="nav-tabs">
-                <div class="tab-trigger active" onclick="switchTab(event, 'tab-w')">WESTERN</div>
-                <div class="tab-trigger" onclick="switchTab(event, 'tab-e')">CHINESE</div>
-                <div class="tab-trigger" onclick="switchTab(event, 'tab-p')">VOUCHER</div>
-            </div>
-            <div class="scroll-area">
-                <div id="tab-w" class="tab-content">
-                    <div class="input-group"><label>Bride</label><input type="text" id="in-bE" value="Rosesalina" oninput="render()"></div>
-                    <div class="input-group"><label>Groom</label><input type="text" id="in-gE" value="Benjamin" oninput="render()"></div>
-                    <div class="input-group"><label>Date</label><input type="date" id="in-dE" value="2026-10-15" oninput="render()"></div>
-                    <div class="input-group"><label>Venue</label><input type="text" id="in-vE" value="FOUR SEASONS GRAND BALLROOM" oninput="render()"></div>
-                    <div class="input-group"><label>Address</label><input type="text" id="in-aE" value="8 FINANCE STREET, CENTRAL, HONG KONG" oninput="render()"></div>
-                </div>
-                <div id="tab-e" class="tab-content hidden">
-                    <div class="grid grid-cols-2 gap-2">
-                        <div class="input-group"><label>新娘</label><input type="text" id="in-bC" value="嘉欣" oninput="render()"></div>
-                        <div class="input-group"><label>新郎</label><input type="text" id="in-gC" value="大文" oninput="render()"></div>
-                    </div>
-                    <div class="input-group"><label>公曆</label><input type="date" id="in-dC" value="2026-10-15" oninput="render()"></div>
-                    <div class="input-group"><label>農曆</label><input type="text" id="in-lu" value="丙午年九月 初六" oninput="render()"></div>
-                    <div class="input-group"><label>場地</label><input type="text" id="in-vN" value="香港四季酒店 · 四季大禮堂" oninput="render()"></div>
-                    <div class="input-group"><label>地址</label><input type="text" id="in-vA" value="香港中環金融街 8 號" oninput="render()"></div>
-                    <div class="grid grid-cols-2 gap-2 mt-4">
-                        <div class="input-group"><label>新娘父/母</label>
-                            <input type="text" id="in-bF" value="嘉誠" oninput="render()">
-                            <input type="text" id="in-bM" value="美玲" oninput="render()" class="mt-2">
-                        </div>
-                        <div class="input-group"><label>新郎父/母</label>
-                            <input type="text" id="in-gF" value="建國" oninput="render()">
-                            <input type="text" id="in-gM" value="麗珍" oninput="render()" class="mt-2">
-                        </div>
-                    </div>
-                </div>
-                <div id="tab-p" class="tab-content hidden"><div id="product-list"></div></div>
-            </div>
-        </aside>
+<script>
+    // 1. 分頁切換邏輯
+    function switchTab(evt, tabName) {
+        const contents = document.querySelectorAll('.tab-content');
+        const tabs = document.querySelectorAll('.tab-trigger');
+        contents.forEach(c => c.classList.add('hidden'));
+        tabs.forEach(t => t.classList.remove('active'));
+        document.getElementById(tabName).classList.remove('hidden');
+        evt.currentTarget.classList.add('active');
+    }
 
-        <main class="preview-container">
-            <div id="card" class="card-canvas">
-                <div id="pre-bE" class="preview-item"></div><div id="pre-gE" class="preview-item"></div>
-                <div id="pre-dE" class="preview-item"></div><div id="pre-vE" class="preview-item"></div>
-                <div id="pre-aE" class="preview-item"></div>
-                <div id="pre-dC" class="preview-item v-text"></div><div id="pre-lu" class="preview-item v-text"></div>
-                <div id="pre-bC" class="preview-item v-text"></div><div id="pre-gC" class="preview-item v-text"></div>
-                <div id="pre-vN" class="preview-item v-text"></div><div id="pre-vA" class="preview-item v-text"></div>
-                <div class="preview-item parent-box">
-                    <div id="pre-bM" class="p-name"></div><div id="pre-bF" class="p-name"></div>
-                    <div id="pre-gM" class="p-name"></div><div id="pre-gF" class="p-name"></div>
-                </div>
-                <div class="footer-pre footer-left"><div id="l-logo" class="pre-logo"></div><div class="pre-info"><div id="l-pname" class="pre-pname"></div><div id="l-tc" class="pre-tc"></div></div></div>
-                <div class="footer-pre footer-right"><div id="r-logo" class="pre-logo"></div><div class="pre-info"><div id="r-pname" class="pre-pname"></div><div id="r-tc" class="pre-tc"></div></div></div>
-            </div>
-        </main>
-    </div>
-    <script>
-        // 1. 分頁切換邏輯
-        function switchTab(evt, tabName) {
-            const contents = document.querySelectorAll('.tab-content');
-            const tabs = document.querySelectorAll('.tab-trigger');
-            contents.forEach(c => c.classList.add('hidden'));
-            tabs.forEach(t => t.classList.remove('active'));
-            document.getElementById(tabName).classList.remove('hidden');
-            evt.currentTarget.classList.add('active');
-        }
+    // 2. 16 款產品數據 (更新美心餅咭及 T&C)
+    const products = [
+        { b: "agnès b.", n: "$50 心意禮券", t: "The e-voucher entitles the holder a cash value of HK$50 spending in any of agnès b. shops in Hong Kong. Valid on or before expiry. Non-refundable." },
+        { b: "agnès b.", n: "$100 心意禮券", t: "The e-voucher entitles the holder a cash value of HK$100 spending in any of agnès b. shops in Hong Kong. Valid on or before expiry. Non-refundable." },
+        { b: "Godiva", n: "HK$50 禮券", t: "此電子禮券可在任何香港GODIVA專門店 (部分除外) 換取同等價值貨品。不可兌換現金。" },
+        { b: "Godiva", n: "HK$100 禮券", t: "此電子禮券可在任何香港GODIVA專門店 (部分除外) 換取同等價值貨品。不可兌換現金。" },
+        { b: "Lady M", n: "$80 禮券", t: "Can be used to redeem takeaway cakes and drinks at Lady M Hong Kong. Not applicable for pre-orders." },
+        { b: "Lady M", n: "$150 禮券", t: "Can be used to redeem takeaway cakes and drinks at Lady M Hong Kong. Not applicable for pre-orders." },
+        { b: "華御結", n: "HK$25 禮券", t: "適用於華御結各分店(SOGO除外）。不得兌換現金，不設找贖。不可與其他優惠同時使用。" },
+        { b: "華御結", n: "HK$50 禮券", t: "適用於華御結各分店(SOGO除外）。不得兌換現金，不設找贖。" },
+        { b: "東海堂", n: "HK$25 禮券", t: "憑此券可於有效期內在東海堂餅店換領總值HK$25之禮餅。不能兌換現金。" },
+        { b: "東海堂", n: "HK$50 禮券", t: "憑此券可於有效期內在東海堂餅店換領總值HK$50之禮餅。不能兌換現金。" },
+        { b: "奇華餅家", n: "HK$50 禮券", t: "此券不能兌換現金或作現金找贖。只限使用一次。奇華餅家保留最終決定權。" },
+        { b: "奇華餅家", n: "金盈喜餅咭", t: "換取奇華金盈喜禮餅一盒。逾期作廢。不可兌換現金。" },
+        { b: "奇華餅家", n: "金雅喜餅咭", t: "換取奇華金雅喜禮餅一盒。逾期作廢。詳情參閱券背。" },
+        { b: "奇華餅家", n: "金緣喜餅咭", t: "換取奇華金緣喜禮餅一盒。逾期作廢。圖片只供參考。" },
+        { b: "奇華餅家", n: "龍鳳對餅咭", t: "兌換龍鳳對餅嫁喜禮餅1盒。請提前兩星期到分店預訂。" },
+        { b: "美心西餅", n: "HK$50 禮券", t: "憑此券到香港美心西餅分店換領價值港幣50元之產品。不設找贖及兌換現金。" }
+    ];
 
-        // 2. 16 款產品數據 (包含完整品牌清單與 T&C)
-        const products = [
-            { b: "agnès b.", n: "$50 心意禮券", t: "The e-voucher entitles the holder a cash value of HK$50 spending in any of agnès b. / SPORT b. / agnès b. CAFÉ / agnès b. FLEURISTE / agnès b. DÉLICES shops (except SOGO & Horizon Outlet Store) in Hong Kong. For the corresponding shop address, please refer to https://www.agnesb.com.hk/storeLocator. The e-voucher can only be used on or before the expiry date as shown on the e-voucher. Any unused amount will be forfeited. Agnès b. HK Limited reserves the right to amend and withdraw any terms and conditions without prior notice." },
-            { b: "agnès b.", n: "$100 心意禮券", t: "The e-voucher entitles the holder a cash value of HK$100 spending in any of agnès b. / SPORT b. / agnès b. CAFÉ / agnès b. FLEURISTE / agnès b. DÉLICES shops (except SOGO & Horizon Outlet Store) in Hong Kong. For the corresponding shop address, please refer to https://www.agnesb.com.hk/storeLocator. The e-voucher can only be used on or before the expiry date as shown on the e-voucher. Any unused amount will be forfeited. Agnès b. HK Limited reserves the right to amend and withdraw any terms and conditions without prior notice." },
-            { b: "Godiva", n: "HK$50 禮券", t: "此GODIVA電子禮券可在本券有效期內於任何香港GODIVA專門店 (機場、免稅店、祟光銅鑼灣百貨公司及期間限定店除外) 換取同等價值貨品。此電子禮券只可使用一次。影印本及螢幕截圖恕不接納。此電子禮券不可與GODIVA VIP咭或其他推廣優惠一併使用。如有任何爭議，Godiva Chocolatier (Asia) Limited保留最終決定權。" },
-            { b: "Godiva", n: "HK$100 禮券", t: "此禮券持有人可在本券有效期內於任何香港GODIVA專門店 (機場、免稅店、祟光銅鑼灣百貨公司及期間限定店除外) 換取同等價值貨品。此電子禮券只可使用一次。影印本及螢幕截圖恕不接納。此電子禮券不能用以套取現金。不可與其他推廣優惠一併使用。如有任何爭議，Godiva Chocolatier (Asia) Limited保留最終決定權。" },
-            { b: "Lady M", n: "$80 禮券", t: "The certificate can only be used to redeem takeaway cakes and drinks at Lady M Hong Kong. Not applicable for whole cake pre-order or dine-in order. The certificate must be presented upon purchase. Non-refundable or non-exchangeable for cash. Subject to availability. Lady M Hong Kong reserves the right to amend the above terms without prior notice." },
-            { b: "Lady M", n: "$150 禮券", t: "The certificate can only be used to redeem takeaway cakes and drinks at Lady M Hong Kong. Not applicable for whole cake pre-order or dine-in order. The certificate must be presented upon purchase. Non-refundable or non-exchangeable for cash. Subject to availability. Lady M Hong Kong reserves the right to amend the above terms without prior notice." },
-            { b: "華御結", n: "HK$25 禮券", t: "此券適用於華御結各分店(SOGO分店除外）。此券不得兌換現金、轉讓，並恕不作退款或現金找贖。此券不適用於購買套餐，及不可與其他優惠同時使用。此券如經塗改、損壞、模糊及逾期，即屬作廢。華御結保留更改此券使用條款之權利及任何爭議之最終決定權。" },
-            { b: "華御結", n: "HK$50 禮券", t: "此券適用於華御結各分店(SOGO分店除外）。此券不得兌換現金、轉讓，並恕不作退款或現金找贖。此券不適用於購買套餐，及不可與其他優惠同時使用。此券如經塗改、損壞、模糊及逾期，即屬作廢。華御結保留更改此券使用條款之權利及任何爭議之最終決定權。" },
-            { b: "東海堂", n: "HK$25 禮券", t: "憑此券可於有效期內在東海堂旗下餅店換領總值HK$25之禮餅。此券不適用於網上購物。請於付款前出示此券。此券不能兌換現金。行使此券不獲現金或任何形式之找贖。如有遺失或損毀，恕不補發。東海堂保留對此條款之最終解釋權。" },
-            { b: "東海堂", n: "HK$50 禮券", t: "憑此券可於有效期內在東海堂旗下餅店換領總值HK$50之禮餅。此券不適用於網上購物。請於付款前出示此券。此券不能兌換現金。行使此券不獲現金或任何形式之找贖。如有遺失或損毀，恕不補發。東海堂保留對此條款之最終解釋權。" },
-            { b: "奇華餅家", n: "HK$50 禮券", t: "條款及細則：此券不能兌換現金或作現金找贖。此券不能與其他推廣優惠同時使用。此券只限使用一次。此券只適用於奇華餅家香港各分店(香港國際機場分店除外）。奇華餅家保留最終決定權。" },
-            { b: "奇華餅家", n: "金盈喜餅咭", t: "條款及細則：此券可換取奇華金盈喜禮餅一盒。逾期作廢。此券不適用於換領現金。如有任何爭議，奇華餅家有限公司將保留最終決定權。請於換領前致電分店查詢庫存。" },
-            { b: "奇華餅家", n: "金雅喜餅咭", t: "條款及細則：此券可換取奇華金雅喜禮餅一盒。逾期作廢。詳情請參閱券背說明。奇華餅家保留最終決定權。" },
-            { b: "奇華餅家", n: "金緣喜餅咭", t: "條款及細則：此券可換取奇華金緣喜禮餅一盒。逾期作廢。此券不可與其他優惠同時使用。產品圖片只供參考。奇華餅家保留最終決定權。" },
-            { b: "奇華餅家", n: "龍鳳對餅咭", t: "條款及細則：可兌換龍鳳對餅嫁喜禮餅1盒。請提前兩星期到分店預訂。此券不適用於香港國際機場分店。如有爭議，奇華餅家有限公司將保留最終決定權。" },
-            { b: "美心西餅", n: "HK$50 禮券", t: "條款及細則：憑此券到香港美心西餅分店換領價值港幣50元之產品。此券不可兌換現金及不設找贖。逾期作廢。美心食品有限公司保留最終決定權。" }
-        ];
+    const brandLogos = {
+        "agnès b.": "https://upload.wikimedia.org/wikipedia/commons/9/97/Agn%C3%A8s_b._logo.png",
+        "Godiva": "https://www.godiva.com.tw/img/godiva_logo.png",
+        "Lady M": "https://img.shoplineapp.com/media/image_clips/5b7a801b8f90480017e4ca83/original.png?1534754834",
+        "東海堂": "https://www.aromebakery.com.hk/arome/images/logo_v2.png",
+        "華御結": "https://www.pacificplace.com.hk/-/media/images/pacificplace2/starstreet/hana-musubi/hana-musubi_logo_apr2022_1.ashx?rev=973c0e9ef342404e845ed5a7f85bd14b&hash=9d532561b9d0e798e9ffc0f878c54d79",
+        "奇華餅家": "https://media.langhamplace.com.hk/cms/store/ENcscXXFp.png",
+        "美心西餅": "https://www.maximscakes.com.hk/images/logo.png"
+    };
 
-        const brandLogos = {
-            "agnès b.": "https://upload.wikimedia.org/wikipedia/commons/9/97/Agn%C3%A8s_b._logo.png",
-            "Godiva": "https://www.godiva.com.tw/img/godiva_logo.png",
-            "Lady M": "https://img.shoplineapp.com/media/image_clips/5b7a801b8f90480017e4ca83/original.png?1534754834",
-            "東海堂": "https://www.aromebakery.com.hk/arome/images/logo_v2.png",
-            "華御結": "https://www.pacificplace.com.hk/-/media/images/pacificplace2/starstreet/hana-musubi/hana-musubi_logo_apr2022_1.ashx?rev=973c0e9ef342404e845ed5a7f85bd14b&hash=9d532561b9d0e798e9ffc0f878c54d79",
-            "奇華餅家": "https://media.langhamplace.com.hk/cms/store/ENcscXXFp.png",
-            "美心西餅": "https://www.maximscakes.com.hk/images/logo.png"
-        };
-
-        // 3. 自動縮放算法
-        function autoShrink(el, maxH, baseSize) {
-            let size = baseSize;
+    // 3. 自動縮放算法
+    function autoShrink(el, maxH, baseSize) {
+        let size = baseSize;
+        el.style.fontSize = size + "px";
+        while ((el.scrollHeight > maxH || el.scrollWidth > el.offsetWidth) && size > 6) {
+            size -= 0.5;
             el.style.fontSize = size + "px";
-            while ((el.scrollHeight > maxH || el.scrollWidth > el.offsetWidth) && size > 6) {
-                size -= 0.5;
-                el.style.fontSize = size + "px";
+        }
+    }
+
+    function toChineseNum(n) {
+        const map = ['零','一','二','三','四','五','六','七','八','九','十'];
+        return n.toString().split('').map(i => map[parseInt(i)] || i).join('');
+    }
+
+    // 4. 渲染核心
+    function render() {
+        // 西式
+        document.getElementById('pre-bE').innerText = document.getElementById('in-bE').value;
+        document.getElementById('pre-gE').innerText = document.getElementById('in-gE').value;
+        document.getElementById('pre-vE').innerText = document.getElementById('in-vE').value;
+        document.getElementById('pre-aE').innerText = document.getElementById('in-aE').value;
+        const dw = new Date(document.getElementById('in-dE').value);
+        document.getElementById('pre-dE').innerText = dw.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+
+        // 中式
+        document.getElementById('pre-bC').innerText = document.getElementById('in-bC').value;
+        document.getElementById('pre-gC').innerText = document.getElementById('in-gC').value;
+        document.getElementById('pre-vN').innerText = document.getElementById('in-vN').value;
+        document.getElementById('pre-vA').innerText = document.getElementById('in-vA').value;
+        document.getElementById('pre-lu').innerText = "農曆 " + document.getElementById('in-lu').value;
+        const dc = new Date(document.getElementById('in-dC').value);
+        const week = ["日","一","二","三","四","五","六"][dc.getDay()];
+        document.getElementById('pre-dC').innerText = `公曆 ${toChineseNum(dc.getFullYear())}年${dc.getMonth()+1}月${dc.getDate()}日 (星期${week})`;
+
+        // 父母名
+        document.getElementById('pre-bF').innerText = document.getElementById('in-bF').value;
+        document.getElementById('pre-bM').innerText = document.getElementById('in-bM').value;
+        document.getElementById('pre-gF').innerText = document.getElementById('in-gF').value;
+        document.getElementById('pre-gM').innerText = document.getElementById('in-gM').value;
+
+        // 執行縮放
+        autoShrink(document.getElementById('pre-bE'), 120, 50);
+        autoShrink(document.getElementById('pre-gE'), 120, 50);
+        autoShrink(document.getElementById('pre-vN'), 380, 18);
+        autoShrink(document.getElementById('pre-vA'), 380, 14);
+
+        // 禮券聯動 (顯示前兩個選擇項)
+        const selected = document.querySelectorAll('.p-check:checked');
+        const targets = [
+            { logo: 'l-logo', name: 'l-pname', tc: 'l-tc' },
+            { logo: 'r-logo', name: 'r-pname', tc: 'r-tc' }
+        ];
+        
+        targets.forEach((box, i) => {
+            document.getElementById(box.logo).innerHTML = '';
+            document.getElementById(box.name).innerText = '';
+            document.getElementById(box.tc).innerText = '';
+            if(selected[i]) {
+                const idx = selected[i].getAttribute('data-idx');
+                const p = products[idx];
+                document.getElementById(box.logo).innerHTML = `<img src="${brandLogos[p.b]}" alt="logo">`;
+                document.getElementById(box.name).innerText = p.b + " " + p.n;
+                document.getElementById(box.tc).innerText = p.t;
+                autoShrink(document.getElementById(box.tc), 110, 10);
             }
-        }
+        });
+    }
 
-        function toChineseNum(n) {
-            const map = ['零','一','二','三','四','五','六','七','八','九','十'];
-            return n.toString().split('').map(i => map[parseInt(i)] || i).join('');
-        }
-
-        // 4. 渲染核心
-        function render() {
-            // 西式
-            document.getElementById('pre-bE').innerText = document.getElementById('in-bE').value;
-            document.getElementById('pre-gE').innerText = document.getElementById('in-gE').value;
-            document.getElementById('pre-vE').innerText = document.getElementById('in-vE').value;
-            document.getElementById('pre-aE').innerText = document.getElementById('in-aE').value;
-            const dw = new Date(document.getElementById('in-dE').value);
-            document.getElementById('pre-dE').innerText = dw.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
-
-            // 中式
-            document.getElementById('pre-bC').innerText = document.getElementById('in-bC').value;
-            document.getElementById('pre-gC').innerText = document.getElementById('in-gC').value;
-            document.getElementById('pre-vN').innerText = document.getElementById('in-vN').value;
-            document.getElementById('pre-vA').innerText = document.getElementById('in-vA').value;
-            document.getElementById('pre-lu').innerText = "農曆 " + document.getElementById('in-lu').value;
-            const dc = new Date(document.getElementById('in-dC').value);
-            const week = ["日","一","二","三","四","五","六"][dc.getDay()];
-            document.getElementById('pre-dC').innerText = `公曆 ${toChineseNum(dc.getFullYear())}年${dc.getMonth()+1}月${dc.getDate()}日 (星期${week})`;
-
-            // 父母名
-            document.getElementById('pre-bF').innerText = document.getElementById('in-bF').value;
-            document.getElementById('pre-bM').innerText = document.getElementById('in-bM').value;
-            document.getElementById('pre-gF').innerText = document.getElementById('in-gF').value;
-            document.getElementById('pre-gM').innerText = document.getElementById('in-gM').value;
-
-            // 執行縮放 (姓名基礎字級 50px)
-            autoShrink(document.getElementById('pre-bE'), 120, 50);
-            autoShrink(document.getElementById('pre-gE'), 120, 50);
-            autoShrink(document.getElementById('pre-vN'), 380, 18);
-            autoShrink(document.getElementById('pre-vA'), 380, 14);
-
-            // 禮券聯動
-            const selected = document.querySelectorAll('.p-check:checked');
-            const leftBox = { logo: 'l-logo', name: 'l-pname', tc: 'l-tc' };
-            const rightBox = { logo: 'r-logo', name: 'r-pname', tc: 'r-tc' };
-            
-            [leftBox, rightBox].forEach(box => {
-                document.getElementById(box.logo).innerHTML = '';
-                document.getElementById(box.name).innerText = '';
-                document.getElementById(box.tc).innerText = '';
-                if(selected.length > 0) {
-                    const idx = selected[0].getAttribute('data-idx');
-                    const p = products[idx];
-                    document.getElementById(box.logo).innerHTML = `<img src="${brandLogos[p.b]}" alt="logo">`;
-                    document.getElementById(box.name).innerText = p.b + " " + p.n;
-                    document.getElementById(box.tc).innerText = p.t;
-                    autoShrink(document.getElementById(box.tc), 110, 10);
-                }
-            });
-        }
-
-        // 5. 初始化側邊清單
-        const listContainer = document.getElementById('product-list');
+    // 5. 初始化
+    window.onload = () => {
+        const list = document.getElementById('product-list');
         products.forEach((p, i) => {
             const div = document.createElement('div');
             div.className = "prod-card";
@@ -245,10 +190,8 @@
                     </div>
                 </label>
             `;
-            listContainer.appendChild(div);
+            list.appendChild(div);
         });
-
-        window.onload = render;
-    </script>
-</body>
-</html>
+        render();
+    };
+</script>
