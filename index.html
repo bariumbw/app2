@@ -24,22 +24,27 @@
         .card-canvas { width: 1000px; height: 707px; position: relative; background-image: url('5.jpg'); background-size: cover; box-shadow: 0 40px 80px rgba(0,0,0,0.6); background-color: #fff; }
         .preview-item { position: absolute; color: var(--wedding-red); display: flex; justify-content: center; align-items: center; text-align: center; pointer-events: none; }
 
-        /* --- WESTERN 定位更新 --- */
-        #pre-bE { top: 17px; left: 6px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; } /* 再左 3 (12-6) */
-        #pre-gE { top: 167px; left: 210px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; } /* 再上 2 (171-4) */
+        /* --- WESTERN 定位 --- */
+        #pre-bE { top: 17px; left: 6px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; }
+        #pre-gE { top: 147px; left: 210px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; } /* 向上 5 (-10px) */
         #pre-dE { top: 347px; left: 80px; width: 335px; height: 35px; font-weight: bold; font-size: 20px; }
         #pre-vE { top: 407px; left: 80px; width: 335px; height: 35px; font-weight: bold; font-size: 18px; }
         #pre-aE { top: 437px; left: 22px; width: 450px; height: 55px; font-size: 14px; align-items: flex-start; }
 
-        /* --- CHINESE 定位更新 --- */
+        /* --- CHINESE 定位 --- */
         .v-text { writing-mode: vertical-rl; line-height: 1.2; }
-        #pre-dC { top: 143px; right: 30px; height: 400px; width: 40px; font-size: 18px; } /* 左移 3 (24+6) */
-        #pre-lu { top: 83px; right: 63px; height: 400px; width: 40px; font-size: 16px; } /* 右移 6 (75-12) */
+        #pre-dC { top: 143px; right: 30px; height: 400px; width: 40px; font-size: 18px; }
+        #pre-lu { top: 83px; right: 57px; height: 400px; width: 40px; font-size: 16px; } /* 右移 3 (63-6) */
         #pre-gC { top: 101px; right: 99px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
         #pre-bC { top: 101px; right: 129px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
         #pre-vN { top: 25px; right: 183px; height: 380px; width: 30px; font-size: 18px; }
-        #pre-vA { top: 75px; right: 159px; height: 380px; width: 30px; font-size: 16px; } /* 左移 1 (157+2), 下移 2 (71+4) */
+        #pre-vA { top: 77px; right: 161px; height: 380px; width: 30px; font-size: 16px; } /* 左 1, 下 1 */
         
+        /* 時間顯示區域 */
+        #pre-time-box { top: 130px; right: 220px; height: 300px; width: 60px; font-size: 18px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+        .time-group { display: flex; flex-direction: column; align-items: center; }
+        .time-num { font-size: 22px; font-weight: bold; margin-bottom: 2px; }
+
         .parent-box { top: 357px; right: 305px; width: 140px; height: 95px; display: flex; flex-direction: row-reverse; gap: 8px; }
         .p-name { writing-mode: vertical-rl; width: 28px; height: 100%; font-size: 18px; font-weight: bold; }
 
@@ -48,7 +53,6 @@
         .pre-logo img { max-height: 40px; width: auto; margin-bottom: 4px; }
         .pre-pname { font-weight: bold; font-size: 14px; margin-bottom: 2px; }
         .pre-tc { font-size: 9px; line-height: 1.1; overflow: hidden; text-align: left; }
-        .prod-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 8px; padding: 10px; margin-bottom: 8px; }
     </style>
 </head>
 <body>
@@ -64,7 +68,7 @@
             <div id="tab-w" class="tab-content">
                 <div class="input-group"><label>Bride Name</label><input type="text" id="in-bE" value="Rosesalina" oninput="render()"></div>
                 <div class="input-group"><label>Groom Name</label><input type="text" id="in-gE" value="Benjamin" oninput="render()"></div>
-                <div class="input-group"><label>Date</label><input type="date" id="in-dE" value="2026-10-15" oninput="render()"></div>
+                <div class="input-group"><label>Date</label><input type="date" id="in-dE" value="2026-10-15" oninput="syncDate(this.value)"></div>
                 <div class="input-group"><label>Venue Name</label><input type="text" id="in-vE" value="FOUR SEASONS GRAND BALLROOM" oninput="render()"></div>
                 <div class="input-group"><label>Venue Address</label><input type="text" id="in-aE" value="8 FINANCE STREET, CENTRAL, HONG KONG" oninput="render()"></div>
             </div>
@@ -73,8 +77,13 @@
                     <div class="input-group"><label>新娘</label><input type="text" id="in-bC" value="嘉欣" oninput="render()"></div>
                     <div class="input-group"><label>新郎</label><input type="text" id="in-gC" value="大文" oninput="render()"></div>
                 </div>
-                <div class="input-group"><label>公曆</label><input type="date" id="in-dC" value="2026-10-15" oninput="render()"></div>
-                <div class="input-group"><label>農曆</label><input type="text" id="in-lu" value="丙午年九月 初六" oninput="render()"></div>
+                <div class="input-group"><label>選擇結婚日期 (彈出式月曆)</label><input type="date" id="in-dC" value="2026-10-15" oninput="syncDate(this.value)"></div>
+                
+                <div class="grid grid-cols-2 gap-2 border-t border-white/10 pt-4 mt-2">
+                    <div class="input-group"><label>恭候時間 (時)</label><input type="number" id="in-tWait" value="5" min="1" max="23" oninput="render()"></div>
+                    <div class="input-group"><label>入席時間 (時)</label><input type="number" id="in-tSit" value="8" min="1" max="23" oninput="render()"></div>
+                </div>
+
                 <div class="input-group"><label>場地名稱</label><input type="text" id="in-vN" value="香港四季酒店 · 四季大禮堂" oninput="render()"></div>
                 <div class="input-group"><label>場地地址</label><input type="text" id="in-vA" value="香港中環金融街 8 號" oninput="render()"></div>
                 <div class="grid grid-cols-2 gap-2">
@@ -91,9 +100,16 @@
             <div id="pre-bE" class="preview-item"></div><div id="pre-gE" class="preview-item"></div>
             <div id="pre-dE" class="preview-item"></div><div id="pre-vE" class="preview-item"></div>
             <div id="pre-aE" class="preview-item"></div>
+            
             <div id="pre-dC" class="preview-item v-text"></div><div id="pre-lu" class="preview-item v-text"></div>
             <div id="pre-bC" class="preview-item v-text"></div><div id="pre-gC" class="preview-item v-text"></div>
             <div id="pre-vN" class="preview-item v-text"></div><div id="pre-vA" class="preview-item v-text"></div>
+            
+            <div id="pre-time-box" class="preview-item v-text">
+                <div class="time-group"><span id="val-wait" class="time-num"></span><span>時恭候</span></div>
+                <div class="time-group"><span id="val-sit" class="time-num"></span><span>時入席</span></div>
+            </div>
+
             <div class="preview-item parent-box">
                 <div id="pre-bM" class="p-name"></div><div id="pre-bF" class="p-name"></div>
                 <div id="pre-gM" class="p-name"></div><div id="pre-gF" class="p-name"></div>
@@ -111,50 +127,37 @@
             evt.currentTarget.classList.add('active');
         }
 
-        const products = [
-            { b: "agnès b.", n: "$50 心意禮券", t: "The e-voucher entitles holder HK$50 spending in agnès b. shops. Non-refundable." },
-            { b: "agnès b.", n: "$100 心意禮券", t: "The e-voucher entitles holder HK$100 spending in agnès b. shops. Non-refundable." },
-            { b: "Godiva", n: "HK$50 禮券", t: "此電子禮券可在香港GODIVA專門店換取同等價值貨品。不可兌換現金。" },
-            { b: "Godiva", n: "HK$100 禮券", t: "此電子禮券可在香港GODIVA專門店換取同等價值貨品。不可兌換現金。" },
-            { b: "Lady M", n: "$80 禮券", t: "Redeem takeaway cakes at Lady M HK. Not applicable for whole cake pre-order." },
-            { b: "Lady M", n: "$150 禮券", t: "Redeem takeaway cakes at Lady M HK. Not applicable for whole cake pre-order." },
-            { b: "華御結", n: "HK$25 禮券", t: "適用於華御結各分店。不得兌換現金，不設找贖。" },
-            { b: "華御結", n: "HK$50 禮券", t: "適用於華御結各分店。不得兌換現金，不設找贖。" },
-            { b: "東海堂", n: "HK$25 禮券", t: "憑此券在東海堂換領總值HK$25之禮餅。不能兌換現金。" },
-            { b: "東海堂", n: "HK$50 禮券", t: "憑此券在東海堂換領總值HK$50之禮餅。不能兌換現金。" },
-            { b: "奇華餅家", n: "HK$50 禮券", t: "不能兌換現金。只限使用一次。奇華餅家保留最終決定權。" },
-            { b: "奇華餅家", n: "金盈喜餅咭", t: "換取奇華金盈喜禮餅一盒。逾期作廢。不可兌換現金。" },
-            { b: "奇華餅家", n: "金雅喜餅咭", t: "換取奇華金雅喜禮餅一盒。逾期作廢。詳見券背。" },
-            { b: "奇華餅家", n: "金緣喜餅咭", t: "換取奇華金緣喜禮餅一盒。逾期作廢。圖片只供參考。" },
-            { b: "奇華餅家", n: "龍鳳對餅咭", t: "兌換龍鳳對餅嫁喜禮餅1盒。請提前兩星期預訂。" },
-            { b: "美心西餅", n: "HK$50 禮券", t: "憑此券到美心西餅換領值HK$50之產品。不設找贖。" }
-        ];
-
-        const brandLogos = {
-            "agnès b.": "https://upload.wikimedia.org/wikipedia/commons/9/97/Agn%C3%A8s_b._logo.png",
-            "Godiva": "https://www.godiva.com.tw/img/godiva_logo.png",
-            "Lady M": "https://img.shoplineapp.com/media/image_clips/5b7a801b8f90480017e4ca83/original.png?1534754834",
-            "東海堂": "https://www.aromebakery.com.hk/arome/images/logo_v2.png",
-            "華御結": "https://www.pacificplace.com.hk/-/media/images/pacificplace2/starstreet/hana-musubi/hana-musubi_logo_apr2022_1.ashx?rev=973c0e9ef342404e845ed5a7f85bd14b&hash=9d532561b9d0e798e9ffc0f878c54d79",
-            "奇華餅家": "https://media.langhamplace.com.hk/cms/store/ENcscXXFp.png",
-            "美心西餅": "https://www.maximscakes.com.hk/images/logo.png"
-        };
-
-        function autoShrink(el, maxH, baseSize) {
-            let size = baseSize;
-            el.style.fontSize = size + "px";
-            while ((el.scrollHeight > maxH || el.scrollWidth > el.offsetWidth) && size > 6) {
-                size -= 0.5;
-                el.style.fontSize = size + "px";
-            }
-        }
-
+        // 中國數字轉換邏輯
         function toChineseNum(n) {
             const map = ['零','一','二','三','四','五','六','七','八','九','十'];
-            return n.toString().split('').map(i => map[parseInt(i)] || i).join('');
+            if (n <= 10) return map[n];
+            if (n < 20) return '十' + map[n % 10];
+            return map[Math.floor(n / 10)] + '十' + (n % 10 === 0 ? '' : map[n % 10]);
+        }
+
+        // 農曆轉換 (利用 Intl API 近似計算)
+        function getLunar(dateStr) {
+            const date = new Date(dateStr);
+            const options = { year: 'numeric', month: 'long', day: 'numeric', calendar: 'chinese' };
+            const formatter = new Intl.DateTimeFormat('zh-Hant-u-ca-chinese', options);
+            const parts = formatter.formatToParts(date);
+            let y = "", m = "", d = "";
+            parts.forEach(p => {
+                if(p.type === 'year') y = p.value;
+                if(p.type === 'month') m = p.value;
+                if(p.type === 'day') d = p.value;
+            });
+            return `${y}年 ${m}${d}`;
+        }
+
+        function syncDate(val) {
+            document.getElementById('in-dE').value = val;
+            document.getElementById('in-dC').value = val;
+            render();
         }
 
         function render() {
+            // Western
             document.getElementById('pre-bE').innerText = document.getElementById('in-bE').value;
             document.getElementById('pre-gE').innerText = document.getElementById('in-gE').value;
             document.getElementById('pre-vE').innerText = document.getElementById('in-vE').value;
@@ -162,58 +165,33 @@
             const dw = new Date(document.getElementById('in-dE').value);
             document.getElementById('pre-dE').innerText = dw.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
 
+            // Chinese
             document.getElementById('pre-bC').innerText = document.getElementById('in-bC').value;
             document.getElementById('pre-gC').innerText = document.getElementById('in-gC').value;
             document.getElementById('pre-vN').innerText = document.getElementById('in-vN').value;
             document.getElementById('pre-vA').innerText = document.getElementById('in-vA').value;
-            document.getElementById('pre-lu').innerText = "農曆 " + document.getElementById('in-lu').value;
+            
+            // 自動農曆
             const dc = new Date(document.getElementById('in-dC').value);
+            document.getElementById('pre-lu').innerText = "農曆 " + getLunar(document.getElementById('in-dC').value);
+            
             const week = ["日","一","二","三","四","五","六"][dc.getDay()];
-            document.getElementById('pre-dC').innerText = `公曆 ${toChineseNum(dc.getFullYear())}年${dc.getMonth()+1}月${dc.getDate()}日 (星期${week})`;
+            const yearStr = dc.getFullYear().toString().split('').map(i => ['零','一','二','三','四','五','六','七','八','九'][i]).join('');
+            document.getElementById('pre-dC').innerText = `公曆 ${yearStr}年${dc.getMonth()+1}月${dc.getDate()}日 (星期${week})`;
+
+            // 時間轉換
+            const waitTime = parseInt(document.getElementById('in-tWait').value) || 0;
+            const sitTime = parseInt(document.getElementById('in-tSit').value) || 0;
+            document.getElementById('val-wait').innerText = toChineseNum(waitTime);
+            document.getElementById('val-sit').innerText = toChineseNum(sitTime);
 
             document.getElementById('pre-bF').innerText = document.getElementById('in-bF').value;
             document.getElementById('pre-bM').innerText = document.getElementById('in-bM').value;
             document.getElementById('pre-gF').innerText = document.getElementById('in-gF').value;
             document.getElementById('pre-gM').innerText = document.getElementById('in-gM').value;
-
-            autoShrink(document.getElementById('pre-bE'), 120, 50);
-            autoShrink(document.getElementById('pre-gE'), 120, 50);
-            autoShrink(document.getElementById('pre-vN'), 380, 18);
-            autoShrink(document.getElementById('pre-vA'), 380, 16);
-
-            const selected = document.querySelectorAll('.p-check:checked');
-            const targets = [
-                { logo: 'l-logo', name: 'l-pname', tc: 'l-tc' },
-                { logo: 'r-logo', name: 'r-pname', tc: 'r-tc' }
-            ];
-            targets.forEach((box, i) => {
-                document.getElementById(box.logo).innerHTML = '';
-                document.getElementById(box.name).innerText = '';
-                document.getElementById(box.tc).innerText = '';
-                if(selected[i]) {
-                    const idx = selected[i].getAttribute('data-idx');
-                    const p = products[idx];
-                    document.getElementById(box.logo).innerHTML = `<img src="${brandLogos[p.b]}" alt="logo">`;
-                    document.getElementById(box.name).innerText = p.b + " " + p.n;
-                    document.getElementById(box.tc).innerText = p.t;
-                    autoShrink(document.getElementById(box.tc), 110, 10);
-                }
-            });
         }
 
-        window.onload = () => {
-            const list = document.getElementById('product-list');
-            products.forEach((p, i) => {
-                const div = document.createElement('div');
-                div.className = "prod-card";
-                div.innerHTML = `<label class="flex items-center gap-3 cursor-pointer">
-                    <input type="checkbox" data-idx="${i}" class="p-check w-4 h-4 rounded border-slate-600 bg-slate-800" onchange="render()">
-                    <div class="text-xs font-bold text-white">${p.b} <span class="text-blue-400 font-normal ml-1">${p.n}</span></div>
-                </label>`;
-                list.appendChild(div);
-            });
-            render();
-        };
+        window.onload = render;
     </script>
 </body>
 </html>
