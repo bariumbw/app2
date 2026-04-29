@@ -25,20 +25,20 @@
         .preview-item { position: absolute; color: var(--wedding-red); display: flex; justify-content: center; align-items: center; text-align: center; pointer-events: none; }
 
         /* --- WESTERN 定位更新 --- */
-        #pre-bE { top: 17px; left: 18px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; } /* 左 3 (24-6) */
-        #pre-gE { top: 175px; left: 210px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; } /* 上 2 (179-4) */
+        #pre-bE { top: 17px; left: 12px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; } /* 左 3 (18-6) */
+        #pre-gE { top: 171px; left: 210px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; } /* 上 2 (175-4) */
         #pre-dE { top: 347px; left: 80px; width: 335px; height: 35px; font-weight: bold; font-size: 20px; }
         #pre-vE { top: 407px; left: 80px; width: 335px; height: 35px; font-weight: bold; font-size: 18px; }
         #pre-aE { top: 437px; left: 22px; width: 450px; height: 55px; font-size: 14px; align-items: flex-start; }
 
         /* --- CHINESE 定位更新 --- */
         .v-text { writing-mode: vertical-rl; line-height: 1.2; }
-        #pre-dC { top: 143px; right: 20px; height: 400px; width: 40px; font-size: 18px; } /* 左 1 (22-2) */
-        #pre-lu { top: 83px; right: 85px; height: 400px; width: 40px; font-size: 16px; } /* 右 3 (79-6), 下 1 (+2) */
+        #pre-dC { top: 143px; right: 24px; height: 400px; width: 40px; font-size: 18px; } /* 向左移 1 (即 right+4px -> 20+4=24) */
+        #pre-lu { top: 83px; right: 75px; height: 400px; width: 40px; font-size: 16px; } /* 向右移 5 (即 right-10px -> 85-10=75) */
         #pre-gC { top: 101px; right: 99px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
         #pre-bC { top: 101px; right: 129px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
         #pre-vN { top: 25px; right: 183px; height: 380px; width: 30px; font-size: 18px; }
-        #pre-vA { top: 73px; right: 155px; height: 380px; width: 30px; font-size: 14px; } /* 右 2 (159-4), 下 3 (+6) */
+        #pre-vA { top: 71px; right: 157px; height: 380px; width: 30px; font-size: 16px; } /* 左移 1 (155+2), 上移 1 (73-2), 放大至16px */
         
         .parent-box { top: 357px; right: 305px; width: 140px; height: 95px; display: flex; flex-direction: row-reverse; gap: 8px; }
         .p-name { writing-mode: vertical-rl; width: 28px; height: 100%; font-size: 18px; font-weight: bold; }
@@ -179,7 +179,7 @@
             autoShrink(document.getElementById('pre-bE'), 120, 50);
             autoShrink(document.getElementById('pre-gE'), 120, 50);
             autoShrink(document.getElementById('pre-vN'), 380, 18);
-            autoShrink(document.getElementById('pre-vA'), 380, 14);
+            autoShrink(document.getElementById('pre-vA'), 380, 16);
 
             const selected = document.querySelectorAll('.p-check:checked');
             const targets = [
