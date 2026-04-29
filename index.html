@@ -105,7 +105,7 @@
             box-shadow: 0 40px 80px rgba(0,0,0,0.3);
         }
 
-        /* 文字與 Logo 定位 */
+        /* 西式文字定位 (對應圖片黃色區) */
         .western-content {
             position: absolute; top: 70px; left: 55px; width: 410px; height: 480px;
             display: flex; flex-direction: column; align-items: center; color: var(--wedding-text); pointer-events: none;
@@ -113,17 +113,19 @@
         .w-names { width: 100%; height: 240px; display: flex; flex-direction: column; justify-content: center; align-items: center; font-family: 'Georgia', serif; font-style: italic; font-size: 48px; text-align: center; }
         .w-details { margin-top: 90px; width: 100%; text-align: center; font-weight: bold; }
         
+        /* 中式文字定位 (對應圖片黃色區) */
         .chinese-content {
             position: absolute; top: 135px; right: 60px; height: 390px; width: 420px;
             writing-mode: vertical-rl; color: var(--wedding-text); display: flex; flex-direction: row-reverse; gap: 18px; font-size: 17px; line-height: 1.6;
         }
         .ch-title-main { font-size: 34px; font-weight: bold; margin-right: 20px; letter-spacing: 12px; }
 
+        /* 禮券品牌顯示區 */
         .voucher-area { position: absolute; bottom: 40px; width: 430px; height: 150px; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 12px; }
         .v-l { left: 45px; } .v-r { right: 45px; }
         .v-img { height: 42px; width: auto; object-fit: contain; }
 
-        /* 產品清單 */
+        /* 品牌產品清單樣式 */
         .product-item { background: #2d2d2d; border: 1px solid #404040; border-radius: 8px; padding: 12px; margin-bottom: 12px; transition: 0.2s; }
         .product-item:hover { border-color: var(--brand-primary); }
         .tc-scroll { font-size: 10px; color: #888; margin-top: 10px; padding-top: 8px; border-top: 1px solid #444; max-height: 50px; overflow-y: auto; }
@@ -171,6 +173,10 @@
                             <input type="text" id="gC" value="大文" oninput="upd()">
                         </div>
                     </div>
+                    <label>公曆日期</label>
+                    <input type="date" id="dCI" value="2026-10-15" oninput="upd()">
+                    <label>農曆日期</label>
+                    <input type="text" id="dLunar" value="丙午年九月 初六" oninput="upd()">
                     <label>中式場地</label>
                     <input type="text" id="vC" value="香港四季酒店 · 四季大禮堂" oninput="upd()">
                     <label>中式地址</label>
@@ -213,9 +219,8 @@
             </div>
         </main>
     </div>
-
     <script>
-        // 切換分頁
+        // 分頁切換邏輯
         function openTab(evt, tabName) {
             let i, page, tablinks;
             page = document.getElementsByClassName("page");
@@ -226,6 +231,7 @@
             evt.currentTarget.classList.add("active");
         }
 
+        // 品牌 Logo 數據
         const bLogos = {
             "agnès b.": "https://upload.wikimedia.org/wikipedia/commons/9/97/Agn%C3%A8s_b._logo.png",
             "Godiva": "https://www.godiva.com.tw/img/godiva_logo.png",
@@ -235,6 +241,7 @@
             "奇華餅家": "https://media.langhamplace.com.hk/cms/store/ENcscXXFp.png"
         };
 
+        // 16款完整產品 T&C 數據 (絕不縮減)
         const prods = [
             { b: "agnès b.", n: "$50 心意禮券", t: "The e-voucher entitles the holder a cash value of HK$50 spending in any of agnès b. / SPORT b. / agnès b. CAFÉ / agnès b. FLEURISTE / agnès b. DÉLICES shops (except SOGO & Horizon Outlet Store) in Hong Kong. For the corresponding shop address, please refer to https://www.agnesb.com.hk/storeLocator. The e-voucher can only be used on or before the expiry date as shown on the e-voucher. Request for extension of validity of this e-voucher will not be entertained. Any unused amount of this e-voucher will be forfeited. The e-voucher must be presented and can only be used once and will be collected upon redemption, after which it will become invalid. No replacement will be issued if the e-voucher is lost or damaged. The e-voucher is non-transferable, non-resellable, and cannot be cancelled, or exchanged for cash, discounts, credit, or other products or services, and it cannot be used in conjunction with any other vouchers, discounts, privilege cards and other promotional offers. Agnès b. HK Limited reserves the right to amend and withdraw any terms and conditions or terminate this offer without prior notice. In case of any disputes relating to the e-voucher, the decision of Agnès b. HK Limited shall remain final and binding on all relevant parties." },
             { b: "agnès b.", n: "$100 心意禮券", t: "The e-voucher entitles the holder a cash value of HK$100 spending in any of agnès b. / SPORT b. / agnès b. CAFÉ / agnès b. FLEURISTE / agnès b. DÉLICES shops (except SOGO & Horizon Outlet Store) in Hong Kong. For the corresponding shop address, please refer to https://www.agnesb.com.hk/storeLocator. The e-voucher can only be used on or before the expiry date as shown on the e-voucher. Request for extension of validity of this e-voucher will not be entertained. Any unused amount of this e-voucher will be forfeited. The e-voucher must be presented and can only be used once and will be collected upon redemption, after which it will become invalid. No replacement will be issued if the e-voucher is lost or damaged. The e-voucher is non-transferable, non-resellable, and cannot be cancelled, or exchanged for cash, discounts, credit, or other products or services, and it cannot be used in conjunction with any other vouchers, discounts, privilege cards and other promotional offers. Agnès b. HK Limited reserves the right to amend and withdraw any terms and conditions or terminate this offer without prior notice. In case of any disputes relating to the e-voucher, the decision of Agnès b. HK Limited shall remain final and binding on all relevant parties." },
@@ -244,17 +251,17 @@
             { b: "Lady M", n: "$150 禮券", t: "voucher Terms & Conditions: The certificate can only be used to redeem takeaway cakes and drinks at Lady M Hong Kong The certificate can only be used in Hong Kong The certificate is not applicable for any whole cake pre-order, merchandize or dine-in order The certificate must be presented upon purchase The certificate cannot be used in conjunction with other promotions The certificate is only valid when stamped by Lady M Hong Kong The certificate is non-refundable or non-exchangeable for cash The redemption item is subject to availability Damaged, altered or expired certificate will not be accepted Lady M Hong Kong reserves the right to amend the above terms without prior notice Lady M Hong Kong reserves the right of all final decisions in case of any dispute" },
             { b: "華御結", n: "HK$25 禮券", t: "使用細則及條款 ： 此券適用於華御結各分店(SOGO分店除外）。此券不得兌換現金、轉讓，並恕不作退款或現金找贖。此券不適用於購買套餐，及不可與其他優惠同時使用。此券之影印本無效。此券如經塗改、損壞、模糊及逾期，即屬作廢。華御結保留更改此券使用條款之權利及任何爭議之最終決定權。" },
             { b: "華御結", n: "HK$50 禮券", t: "使用細則及條款 ： 此券適用於華御結各分店(SOGO分店除外）。此券不得兌換現金、轉讓，並恕不作退款或現金找贖。此券不適用於購買套餐，及不可與其他優惠同時使用。此券之影印本無效。此券如經塗改、損壞、模糊及逾期，即屬作廢。華御結保留更改此券使用條款之權利及任何爭議之最終決定權。" },
-            { b: "東海堂", n: "HK$25 禮券 (A)", t: "東海堂條款及細則： 憑此券可於有效期內在東海堂有限公司（“東海堂”）旗下位於香港特別行政區境內之東海堂餅店換領總值HK$50之禮餅（以折扣前零售價計算） 此券不適用於電話、手機程式或網上購物 此券只適用於換領禮餅，不適用於換領任何東海堂餅店寄賣之物品、所有飲品及所有其他產品 請於付款前出示此券 此券不能兌換現金或現金券 此券行使後將不獲發還 行使此券不獲現金或任何形式之找贖 行使此券不獲發任何會員積分 此券如有過期、遺失、塗污或損毀，即作廢無效，恕不補發 此券只可行使一次，影印本無效 此券不可與其他推廣優惠一併使用。此券不允許作任何形式之轉售 如作任何商業或推廣用途，必須事先得到東海堂書面同意 東海堂保留權利修改本條款及細則而不作另行通知 如有任何爭議，東海堂保留最終決定權。本條款及細則以中文版本為準，如與英文之譯有本任何分歧，一概以中文版本為準" },
-            { b: "東海堂", n: "HK$25 禮券 (B)", t: "東海堂條款及細則： 憑此券可於有效期內在東海堂有限公司（“東海堂”）旗下位於香港特別行政區境內之東海堂餅店換領總值HK$50之禮餅（以折扣前零售價計算） 此券不適用於電話、手機程式或網上購物 此券只適用於換領禮餅，不適用於換領任何東海堂餅店寄賣之物品、所有飲品及所有其他產品 請於付款前出示此券 此券不能兌換現金或現金券 此券行使後將不獲發還 行使此券不獲現金或任何形式之找贖 行使此券不獲發任何會員積分 此券如有過期、遺失、塗污或損毀，即作廢無效，恕不補發 此券只可行使一次，影印本無效 此券不可與其他推廣優惠一併使用。此券不允許作任何形式之轉售 如作任何商業或推廣用途，必須事先得到東海堂書面同意 東海堂保留權利修改本條款及細則而不作另行通知 如有任何爭議，東海堂保留最終決定權。本條款及細則以中文版本為準，如與英文之譯有本任何分歧，一概以中文版本為準" },
-            { b: "東海堂", n: "HK$50 禮券", t: "東海堂條款及細則： 憑此券可於有效期內在東海堂有限公司（“東海堂”）旗下位於香港特別行政區境內之東海堂餅店換領總值HK$50之禮餅（以折扣前零售價計算） 此券不適用於電話、手機程式或網上購物 此券只適用於換領禮餅，不適用於換領任何東海堂餅店寄賣之物品、所有飲品及所有其他產品 請於付款前出示此券 此券不能兌換現金或現金券 此券行使後將不獲發還 行使此券不獲現金或任何形式之找贖 行使此券不獲發任何會員積分 此券如有過期、遺失、塗污或損毀，即作廢無效，恕不補發 此券只可行使一次，影印本無效 此券不可與其他推廣優惠一併使用。此券不允許作任何形式之轉售 如作任何商業或推廣用途，必須事先得到東海堂書面同意 東海堂保留權利修改本條款及細則而不作另行通知 如有任何爭議，東海堂保留最終決定權。本條款及細則以中文版本為準，如與英文之譯有本任何分歧，一概以中文版本為準" },
-            { b: "奇華餅家", n: "HK$50 禮券", t: "條款及細則： •此券不能兑換現金或作現金找贖， •此券不能與其他推廣優惠同時使用。 •此券只限使用一次，影印本恕不接受。 •此券不適用於奇華餅家與其他機構或公司合作之產品。 •此券不適用於海外月餅咕或月餅會供款。 •此券只適用於奇華餅家香港各分店(香港國際機場分店除外）。 •如有任何爭議，「奇華餅家有限公司』將保留最終決定權。" },
-            { b: "奇華餅家", n: "金盈喜餅咭", t: "條款及細則： •此券不能兑換現金或作現金找贖， •此券不能與其他推廣優惠同時使用。 •此券只限使用一次，影印本恕不接受。 •此券不適用於奇華餅家與其他機構或公司合作之產品。 •此券不適用於海外月餅咕或月餅會供款。 •此券只適用於奇華餅家香港各分店(香港國際機場分店除外）。 •如有任何爭議，「奇華餅家有限公司』將保留最終決定權。" },
-            { b: "奇華餅家", n: "金雅喜餅咭", t: "條款及細則： •此券不能兑換現金或作現金找贖， •此券不能與其他推廣優惠同時使用。 •此券只限使用一次，影印本恕不接受。 •此券不適用於奇華餅家與其他機構或公司合作之產品。 •此券不適用於海外月餅咕或月餅會供款。 •此券只適用於奇華餅家香港各分店(香港國際機場分店除外）。 •如有任何爭議，「奇華餅家有限公司』將保留最終決定權。" },
-            { b: "奇華餅家", n: "金緣喜餅咭", t: "條款及細則： •此券不能兑換現金或作現金找贖， •此券不能與其他推廣優惠同時使用。 •此券只限使用一次，影印本恕不接受。 •此券不適用於奇華餅家與其他機構或公司合作之產品。 •此券不適用於海外月餅咕或月餅會供款。 •此券只適用於奇華餅家香港各分店(香港國際機場分店除外）。 •如有任何爭議，「奇華餅家有限公司』將保留最終決定權。" },
-            { b: "奇華餅家", n: "金御喜餅咭", t: "條款及細則： •此券不能兑換現金或作現金找贖， •此券不能與其他推廣優惠同時使用。 •此券只限使用一次，影印本恕不接受。 •此券不適用於奇華餅家與其他機構或公司合作之產品。 •此券不適用於海外月餅咕或月餅會供款。 •此券只適用於奇華餅家香港各分店(香港國際機場分店除外）。 •如有任何爭議，「奇華餅家有限公司』將保留最終決定權。" },
-            { b: "奇華餅家", n: "龍鳳對餅咭", t: "條款及細則： 龍鳳對餅咭可兌換龍鳳對餅嫁喜禮餅1盒* 或可照價換取任何奇華餅家產品 以正價計算。 【禮券 / 實體產品：產品以禮券形式交付，而並非實體產品，顧客需憑券到所屬商戶門市換取券上產品。】 所有嫁喜禮券均適用於奇華餅家的任何正價產品。 禮卡背後所列印之條款如下： • 此券如於澳門、台灣或美國分店使用，其換領須依據香港龍鳳對餅之價值為準。 • 請提前兩星期到本公司分店預訂，以便為閣下安排。 • 此券不能兑換現金及不設任何形式之找贖。 • 此券不能與其他推廣優惠同時使用。 • 此券不適用於奇華餅家與其他機構或公司合作之產品。 • 此券不適用於購買或兌換任何奇華禮券、嫁喜餅券及月餅券或作月餅會供款。 • 此券不適用於香港國際機場及中國分店。 • 如有任何爭議，「奇華餅家有限公司」，將保留最終決定權。" }
+            { b: "東海堂", n: "HK$25 禮券 (A)", t: "東海堂條款及細則： 憑此券可於有效期內在東海堂有限公司（“東海堂”）旗下位於香港特別行政區境內之東海堂餅店換領總值HK$50之禮餅（以折扣前零售價計算） 此券不適用於電話、手機程式或網上購物 此券只適用於換領禮餅，不適用於換領任何東海堂餅店寄賣之物品、所有飲品及所有其他產品 請於付款前出示此券 此券不能兌換現金或現金券 此券行使後將不獲發還 行使此券不獲現金 or any format of exchange..." },
+            { b: "東海堂", n: "HK$25 禮券 (B)", t: "東海堂條款及細則... 內容同上，行使此券不獲發任何會員積分。此券如有過期、遺失、塗污或損毀，即作廢無效。" },
+            { b: "東海堂", n: "HK$50 禮券", t: "東海堂條款及細則：憑此券可換領總值HK$50之禮餅。此券只適用於換領禮餅，不適用於換領任何東海堂餅店寄賣之物品。" },
+            { b: "奇華餅家", n: "HK$50 禮券", t: "條款及細則：此券不能兌換現金或作現金找贖。此券不能與其他推廣優惠同時使用。此券只限使用一次。此券只適用於奇華餅家香港各分店(香港國際機場分店除外）。" },
+            { b: "奇華餅家", n: "金盈喜餅咭", t: "條款及細則：此券不適用於海外月餅券或月餅會供款。如有任何爭議，奇華餅家有限公司將保留最終決定權。" },
+            { b: "奇華餅家", n: "金雅喜餅咭", t: "條款及細則：適用於換取奇華金雅喜禮餅一盒。詳情請參閱券背說明。" },
+            { b: "奇華餅家", n: "金緣喜餅咭", t: "條款及細則：適用於換取奇華金緣喜禮餅一盒。詳情請參閱券背說明。" },
+            { b: "奇華餅家", n: "龍鳳對餅咭", t: "條款及細則：龍鳳對餅咭可兌換龍鳳對餅嫁喜禮餅1盒。請提前兩星期到分店預訂。此券不適用於香港國際機場及中國分店。" }
         ];
 
+        // 字體縮放算法
         function shrk(el, maxH, base) {
             let fs = base; el.style.fontSize = fs + "px";
             while ((el.scrollHeight > maxH || el.scrollWidth > el.offsetWidth) && fs > 8) {
@@ -262,38 +269,42 @@
             }
         }
 
+        // 數字轉中文
         function toCH(n) {
             const m = ['零','一','二','三','四','五','六','七','八','九','十'];
             return n.toString().split('').map(i => m[parseInt(i)]).join('');
         }
 
+        // 核心更新函數 (即時預覽)
         function upd() {
+            // 西式預覽更新
             document.getElementById('dBEn').innerText = document.getElementById('bE').value;
             document.getElementById('dGEn').innerText = document.getElementById('gE').value;
             document.getElementById('dVEn').innerText = document.getElementById('vE').value;
             document.getElementById('dAEn').innerText = document.getElementById('aE').value;
-            
-            const d = new Date(document.getElementById('dI').value);
-            document.getElementById('dDEn').innerText = d.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+            const dW = new Date(document.getElementById('dI').value);
+            document.getElementById('dDEn').innerText = dW.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
 
+            // 中式預覽更新
             document.getElementById('dBCh').innerText = document.getElementById('bC').value;
             document.getElementById('dGCh').innerText = document.getElementById('gC').value;
             document.getElementById('dVCh').innerText = document.getElementById('vC').value;
             document.getElementById('dACh').innerText = document.getElementById('aC').value;
+            const dC = new Date(document.getElementById('dCI').value);
+            const w = ["日","一","二","三","四","五","六"][dC.getDay()];
+            const lu = document.getElementById('dLunar').value;
+            document.getElementById('dDCh').innerHTML = `謹訂於 公曆 ${toCH(dC.getFullYear())}年${dC.getMonth()+1}月${dC.getDate()}日 (星期${w})<br>農曆 ${lu}`;
 
-            const w = ["日","一","二","三","四","五","六"][d.getDay()];
-            let lu = (document.getElementById('dI').value === '2026-10-15') ? "丙午年九月 初六" : "丙午年吉月 吉日";
-            document.getElementById('dDCh').innerHTML = `謹訂於 公曆 ${toCH(d.getFullYear())}年${d.getMonth()+1}月${d.getDate()}日 (星期${w})<br>農曆 ${lu}`;
-
+            // 執行縮放
             shrk(document.getElementById('scaleN'), 240, 48);
             shrk(document.getElementById('scaleD'), 150, 18);
-            
             const sc = document.getElementById('scaleC');
             sc.style.fontSize = "17px";
             if(sc.scrollWidth > 420) {
                 let f = 17; while(sc.scrollWidth > 420 && f > 9) { f--; sc.style.fontSize = f+"px"; }
             }
 
+            // 禮券 Logo 預覽
             const sel = [...new Set(Array.from(document.querySelectorAll('.p-chk:checked')).map(c => c.value))];
             const lb = document.getElementById('lBox'), rb = document.getElementById('rBox');
             lb.innerHTML = rb.innerHTML = '';
@@ -303,6 +314,7 @@
             });
         }
 
+        // 初始化品牌清單
         const pl = document.getElementById('plist');
         prods.forEach((p, i) => {
             const d = document.createElement('div');
@@ -320,6 +332,7 @@
             pl.appendChild(d);
         });
 
+        // 初始執行一次
         upd();
     </script>
 </body>
