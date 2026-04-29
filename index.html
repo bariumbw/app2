@@ -3,126 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>囍帖預覽器 V2 - Bespoke Mall</title>
+    <title>Wedding Card Designer Pro - Bespoke Mall</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --wedding-text: #632A31;
-            --brand-primary: #3b82f6;
-            --sidebar-width: 420px;
-            --glass-bg: rgba(23, 23, 23, 0.85);
-        }
-        body {
-            background-color: #0f172a;
-            font-family: 'Inter', 'Noto Serif TC', sans-serif;
-            margin: 0;
-            overflow: hidden;
-            color: #f1f5f9;
+            --wedding-red: #632A31;
+            --accent-blue: #3b82f6;
+            --glass-bg: rgba(15, 23, 42, 0.8);
         }
         
-        /* 頂部導航 */
-        .top-nav {
-            background: rgba(15, 23, 42, 0.9);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            height: 64px;
-            display: flex;
-            align-items: center;
-            padding: 0 30px;
-            z-index: 100;
+        body {
+            background: #020617;
+            font-family: 'Inter', 'Noto Serif TC', sans-serif;
+            color: #f8fafc;
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
         }
 
-        .main-layout {
-            display: flex;
-            height: calc(100vh - 64px);
-        }
-
-        /* 參照 bariumbw.github.io/app/ 的側邊欄設計 */
-        .sidebar {
-            width: var(--sidebar-width);
+        /* 側邊欄玻璃擬態 (參照 bariumbw.github.io/app/) */
+        .glass-sidebar {
+            width: 420px;
             background: var(--glass-bg);
-            backdrop-filter: blur(12px);
+            backdrop-filter: blur(16px);
             border-right: 1px solid rgba(255, 255, 255, 0.1);
             display: flex;
             flex-direction: column;
             z-index: 50;
+            box-shadow: 20px 0 50px rgba(0,0,0,0.5);
         }
 
-        /* 標籤切換區 */
-        .tab-headers {
+        .nav-tabs {
             display: flex;
-            padding: 20px 20px 0 20px;
-            gap: 8px;
+            padding: 20px 20px 0;
+            gap: 10px;
         }
-        .tab-btn {
+
+        .tab-trigger {
             flex: 1;
-            padding: 10px 4px;
+            padding: 12px 5px;
             font-size: 0.8rem;
             font-weight: 600;
             text-align: center;
             cursor: pointer;
             color: #94a3b8;
-            border-radius: 8px 8px 0 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 12px 12px 0 0;
             background: rgba(255, 255, 255, 0.03);
-            border: 1px solid transparent;
-        }
-        .tab-btn.active {
-            color: #fff;
-            background: rgba(59, 130, 246, 0.15);
-            border: 1px solid rgba(59, 130, 246, 0.3);
-            border-bottom-color: transparent;
-            box-shadow: 0 -4px 12px rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        .tab-content {
+        .tab-trigger.active {
+            color: #fff;
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.2) 0%, rgba(59, 130, 246, 0) 100%);
+            border-color: rgba(59, 130, 246, 0.5);
+            border-bottom: none;
+        }
+
+        .scroll-area {
             flex: 1;
             overflow-y: auto;
-            padding: 24px;
-            scrollbar-width: thin;
-            scrollbar-color: #334155 transparent;
+            padding: 25px;
+            scrollbar-width: none;
         }
+        .scroll-area::-webkit-scrollbar { display: none; }
 
-        /* 輸入框設計優化 */
-        .sidebar label {
+        .input-group { margin-bottom: 20px; }
+        .input-group label {
             display: block;
-            font-size: 0.7rem;
+            font-size: 0.65rem;
             text-transform: uppercase;
-            letter-spacing: 0.05em;
+            letter-spacing: 0.1em;
             color: #64748b;
-            margin-top: 20px;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
-        .sidebar input {
+        .input-group input, .input-group select {
             width: 100%;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(0, 0, 0, 0.2);
             border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
+            border-radius: 10px;
+            padding: 12px 15px;
             color: #fff;
-            padding: 12px 14px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             transition: all 0.2s;
         }
-        .sidebar input:focus {
+        .input-group input:focus {
             outline: none;
-            border-color: var(--brand-primary);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.1);
+            border-color: var(--accent-blue);
+            background: rgba(59, 130, 246, 0.05);
+            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
         }
 
-        /* 預覽畫布修正 */
-        .preview-pane {
+        /* 預覽區域 */
+        .preview-container {
             flex: 1;
-            background-color: #1e293b;
-            background-image: radial-gradient(rgba(255,255,255,0.05) 1px, transparent 0);
-            background-size: 24px 24px;
+            background: #0f172a;
             display: flex;
             justify-content: center;
             align-items: center;
             overflow: auto;
-            padding: 40px;
+            padding: 50px;
         }
+
         .card-canvas {
             width: 1000px;
             height: 707px;
@@ -130,173 +113,156 @@
             position: relative;
             background-image: url('5.jpg');
             background-size: cover;
-            background-position: center;
-            box-shadow: 0 50px 100px -20px rgba(0,0,0,0.5);
-            border-radius: 2px;
+            box-shadow: 0 60px 120px -20px rgba(0,0,0,0.7);
         }
 
-        /* 精確座標定位 - 西式 */
-        .western-content {
-            position: absolute; 
-            top: 100px; /* 修正位置 */
-            left: 70px; 
-            width: 380px; 
-            height: 500px;
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            color: var(--wedding-text); 
+        /* 依照 5副本2.jpg 嚴格定位黃色區塊 */
+        .preview-item {
+            position: absolute;
+            color: var(--wedding-red);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
             pointer-events: none;
+            /* background: rgba(255, 255, 0, 0.1); 可視化調試用 */
         }
-        .w-names { width: 100%; height: 200px; display: flex; flex-direction: column; justify-content: center; align-items: center; font-family: 'Georgia', serif; font-style: italic; font-size: 44px; text-align: center; line-height: 1.1; }
-        .w-details { margin-top: 110px; width: 100%; text-align: center; font-weight: 600; line-height: 1.8; }
-        
-        /* 精確座標定位 - 中式 */
-        .chinese-content {
-            position: absolute; 
-            top: 120px; /* 修正位置 */
-            right: 80px; 
-            height: 420px; 
-            width: 400px;
-            writing-mode: vertical-rl; 
-            color: var(--wedding-text); 
-            display: flex; 
-            flex-direction: row-reverse; 
-            gap: 22px; 
-            font-size: 18px; 
-            line-height: 1.5;
-        }
-        .ch-title-main { font-size: 36px; font-weight: bold; margin-right: 24px; letter-spacing: 14px; }
 
-        /* 禮券顯示 */
-        .voucher-area { position: absolute; bottom: 50px; width: 400px; height: 120px; display: flex; flex-wrap: wrap; justify-content: center; align-content: center; gap: 15px; }
-        .v-l { left: 60px; } .v-r { right: 80px; }
-        .v-img { height: 45px; width: auto; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+        /* 西式定位 */
+        #pre-bE { top: 75px; left: 40px; width: 280px; height: 95px; font-family: 'Georgia', serif; font-style: italic; font-size: 40px; }
+        #pre-gE { top: 245px; left: 220px; width: 270px; height: 95px; font-family: 'Georgia', serif; font-style: italic; font-size: 40px; }
+        #pre-dE { top: 485px; left: 100px; width: 335px; height: 35px; font-weight: bold; font-size: 20px; }
+        #pre-vE { top: 545px; left: 80px; width: 335px; height: 35px; font-weight: bold; font-size: 18px; }
+        #pre-aE { top: 625px; left: 22px; width: 450px; height: 55px; font-size: 14px; align-items: flex-start; }
 
-        /* 產品清單美化 */
-        .product-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 14px; margin-bottom: 12px; transition: 0.3s; }
-        .product-item:hover { border-color: var(--brand-primary); background: rgba(255,255,255,0.06); }
-        .tc-scroll { font-size: 9px; color: #64748b; margin-top: 10px; padding-top: 10px; border-top: 1px solid rgba(255,255,255,0.05); max-height: 60px; overflow-y: auto; line-height: 1.4; }
+        /* 中式定位 (縱向為主) */
+        .v-text { writing-mode: vertical-rl; line-height: 1.2; }
+        #pre-dC { top: 285px; right: 28px; height: 400px; width: 40px; font-size: 18px; }
+        #pre-lu { top: 285px; right: 75px; height: 400px; width: 40px; font-size: 16px; }
+        #pre-gC { top: 205px; right: 125px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
+        #pre-bC { top: 205px; right: 155px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
+        #pre-vN { top: 205px; right: 215px; height: 380px; width: 30px; font-size: 18px; }
+        #pre-vA { top: 205px; right: 245px; height: 380px; width: 30px; font-size: 14px; }
         
-        .tab-content::-webkit-scrollbar { width: 4px; }
-        .tab-content::-webkit-scrollbar-thumb { background: #334155; border-radius: 10px; }
+        /* 父母名定位 */
+        .parent-box { top: 535px; right: 325px; width: 140px; height: 95px; display: flex; flex-direction: row-reverse; gap: 8px; }
+        .p-name { writing-mode: vertical-rl; width: 28px; height: 100%; font-size: 18px; font-weight: bold; }
+
+        /* 底部產品顯示 */
+        .footer-pre { position: absolute; bottom: 35px; width: 455px; height: 145px; display: flex; gap: 15px; padding: 10px; }
+        .footer-left { left: 22px; } .footer-right { right: 22px; }
+        .pre-logo { width: 110px; height: 100%; display: flex; align-items: center; justify-content: center; }
+        .pre-logo img { max-width: 100%; max-height: 50px; }
+        .pre-info { flex: 1; text-align: left; display: flex; flex-direction: column; justify-content: flex-start; }
+        .pre-pname { font-weight: bold; font-size: 16px; height: 25px; margin-bottom: 5px; color: var(--wedding-red); }
+        .pre-tc { font-size: 10px; line-height: 1.2; overflow: hidden; color: var(--wedding-red); }
+
+        /* 側邊欄產品清單 */
+        .prod-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 15px; margin-bottom: 12px; }
+        .prod-card:hover { border-color: var(--accent-blue); background: rgba(59, 130, 246, 0.05); }
     </style>
 </head>
 <body>
 
-    <nav class="top-nav">
-        <div class="flex items-center gap-3">
-            <div class="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/20">BM</div>
-            <div>
-                <div class="text-sm font-bold text-white leading-none">Wedding Dash</div>
-                <div class="text-[10px] text-slate-400 mt-1 uppercase tracking-widest">Premium Designer</div>
-            </div>
-        </div>
-    </nav>
-
-    <div class="main-layout">
-        <aside class="sidebar">
-            <div class="tab-headers">
-                <div class="tab-btn active" onclick="openTab(event, 'page-west')">西式資料</div>
-                <div class="tab-btn" onclick="openTab(event, 'page-east')">中式資料</div>
-                <div class="tab-btn" onclick="openTab(event, 'page-brand')">品牌選擇</div>
+    <div class="flex h-screen">
+        <aside class="glass-sidebar">
+            <div class="p-6">
+                <div class="flex items-center gap-3 mb-2">
+                    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center font-bold text-white shadow-lg shadow-blue-500/20">B</div>
+                    <span class="text-xl font-bold tracking-tight">Bespoke Mall <span class="text-blue-500">App</span></span>
+                </div>
             </div>
 
-            <div class="tab-content">
-                <div id="page-west" class="page active">
-                    <label>Bride's Name</label>
-                    <input type="text" id="bE" value="Rosesalina" oninput="upd()">
-                    <label>Groom's Name</label>
-                    <input type="text" id="gE" value="Benjamin" oninput="upd()">
-                    <label>Wedding Date</label>
-                    <input type="date" id="dI" value="2026-10-15" oninput="upd()">
-                    <label>Venue Name</label>
-                    <input type="text" id="vE" value="FOUR SEASONS GRAND BALLROOM" oninput="upd()">
-                    <label>Venue Address</label>
-                    <input type="text" id="aE" value="8 FINANCE STREET, CENTRAL, HONG KONG" oninput="upd()">
+            <div class="nav-tabs">
+                <div class="tab-trigger active" onclick="switchTab(event, 'tab-w')">WESTERN</div>
+                <div class="tab-trigger" onclick="switchTab(event, 'tab-e')">CHINESE</div>
+                <div class="tab-trigger" onclick="switchTab(event, 'tab-p')">VOUCHER</div>
+            </div>
+
+            <div class="scroll-area">
+                <div id="tab-w" class="tab-content">
+                    <div class="input-group"><label>Bride Name</label><input type="text" id="in-bE" value="Rosesalina" oninput="render()"></div>
+                    <div class="input-group"><label>Groom Name</label><input type="text" id="in-gE" value="Benjamin" oninput="render()"></div>
+                    <div class="input-group"><label>Wedding Date</label><input type="date" id="in-dE" value="2026-10-15" oninput="render()"></div>
+                    <div class="input-group"><label>Venue Name</label><input type="text" id="in-vE" value="FOUR SEASONS GRAND BALLROOM" oninput="render()"></div>
+                    <div class="input-group"><label>Venue Address</label><input type="text" id="in-aE" value="8 FINANCE STREET, CENTRAL, HONG KONG" oninput="render()"></div>
                 </div>
 
-                <div id="page-east" class="page">
+                <div id="tab-e" class="tab-content hidden">
                     <div class="grid grid-cols-2 gap-4">
-                        <div>
-                            <label>新娘姓名</label>
-                            <input type="text" id="bC" value="嘉欣" oninput="upd()">
-                        </div>
-                        <div>
-                            <label>新郎姓名</label>
-                            <input type="text" id="gC" value="大文" oninput="upd()">
-                        </div>
+                        <div class="input-group"><label>新娘</label><input type="text" id="in-bC" value="嘉欣" oninput="render()"></div>
+                        <div class="input-group"><label>新郎</label><input type="text" id="in-gC" value="大文" oninput="render()"></div>
                     </div>
-                    <label>公曆日期</label>
-                    <input type="date" id="dCI" value="2026-10-15" oninput="upd()">
-                    <label>農曆日期</label>
-                    <input type="text" id="dLunar" value="丙午年九月 初六" oninput="upd()">
-                    <label>中式場地</label>
-                    <input type="text" id="vC" value="香港四季酒店 · 四季大禮堂" oninput="upd()">
-                    <label>中式地址</label>
-                    <input type="text" id="aC" value="香港中環金融街 8 號" oninput="upd()">
+                    <div class="input-group"><label>公曆日期</label><input type="date" id="in-dC" value="2026-10-15" oninput="render()"></div>
+                    <div class="input-group"><label>農曆日期</label><input type="text" id="in-lu" value="丙午年九月 初六" oninput="render()"></div>
+                    <div class="input-group"><label>場地名稱</label><input type="text" id="in-vN" value="香港四季酒店 · 四季大禮堂" oninput="render()"></div>
+                    <div class="input-group"><label>場地地址</label><input type="text" id="in-vA" value="香港中環金融街 8 號" oninput="render()"></div>
+                    <div class="grid grid-cols-2 gap-2 mt-4">
+                        <div class="input-group"><label>新娘父</label><input type="text" id="in-bF" value="嘉誠" oninput="render()"></div>
+                        <div class="input-group"><label>新娘母</label><input type="text" id="in-bM" value="美玲" oninput="render()"></div>
+                        <div class="input-group"><label>新郎父</label><input type="text" id="in-gF" value="建國" oninput="render()"></div>
+                        <div class="input-group"><label>新郎母</label><input type="text" id="in-gM" value="麗珍" oninput="render()"></div>
+                    </div>
                 </div>
 
-                <div id="page-brand" class="page">
-                    <p class="text-[11px] text-slate-400 mb-6 font-medium">選擇欲顯示於底部黃色區域的品牌：</p>
-                    <div id="plist"></div>
+                <div id="tab-p" class="tab-content hidden">
+                    <div id="product-list"></div>
                 </div>
             </div>
         </aside>
 
-        <main class="preview-pane">
+        <main class="preview-container">
             <div id="card" class="card-canvas">
-                <div class="western-content">
-                    <div class="w-names" id="scaleN">
-                        <span id="dBEn"></span><br>
-                        <span style="font-size: 26px; font-style: normal; opacity: 0.8;">&</span><br>
-                        <span id="dGEn"></span>
-                    </div>
-                    <div class="w-details" id="scaleD">
-                        <div id="dDEn" class="text-xl mb-2 uppercase tracking-wide"></div>
-                        <div id="dVEn" class="text-lg"></div>
-                        <div id="dAEn" class="text-[10px] opacity-70"></div>
-                    </div>
+                <div id="pre-bE" class="preview-item"></div>
+                <div id="pre-gE" class="preview-item"></div>
+                <div id="pre-dE" class="preview-item"></div>
+                <div id="pre-vE" class="preview-item"></div>
+                <div id="pre-aE" class="preview-item"></div>
+
+                <div id="pre-dC" class="preview-item v-text"></div>
+                <div id="pre-lu" class="preview-item v-text"></div>
+                <div id="pre-bC" class="preview-item v-text"></div>
+                <div id="pre-gC" class="preview-item v-text"></div>
+                <div id="pre-vN" class="preview-item v-text"></div>
+                <div id="pre-vA" class="preview-item v-text"></div>
+                
+                <div class="preview-item parent-box">
+                    <div id="pre-bM" class="p-name"></div>
+                    <div id="pre-bF" class="p-name"></div>
+                    <div id="pre-gM" class="p-name"></div>
+                    <div id="pre-gF" class="p-name"></div>
                 </div>
 
-                <div class="chinese-content" id="scaleC">
-                    <div id="dDCh"></div>
-                    <div>為 <span class="font-bold">小女<span id="dBCh"></span></span> <span class="font-bold">小兒<span id="dGCh"></span></span> 結婚之喜</div>
-                    <div>是晚假座 <span id="dVCh"></span></div>
-                    <div id="dACh" class="text-sm opacity-90"></div>
-                    <div class="ch-title-main">光臨 恭候</div>
-                    <div class="mt-28 text-sm">六時恭候 八時入席</div>
+                <div class="footer-pre footer-left">
+                    <div id="l-logo" class="pre-logo"></div>
+                    <div class="pre-info">
+                        <div id="l-pname" class="pre-pname"></div>
+                        <div id="l-tc" class="pre-tc"></div>
+                    </div>
                 </div>
-
-                <div id="lBox" class="voucher-area v-l"></div>
-                <div id="rBox" class="voucher-area v-r"></div>
+                <div class="footer-pre footer-right">
+                    <div id="r-logo" class="pre-logo"></div>
+                    <div class="pre-info">
+                        <div id="r-pname" class="pre-pname"></div>
+                        <div id="r-tc" class="pre-tc"></div>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
     <script>
-        // 分頁控制
-        function openTab(evt, tabName) {
-            let i, page, tablinks;
-            page = document.getElementsByClassName("page");
-            for (i = 0; i < page.length; i++) { page[i].style.display = "none"; }
-            tablinks = document.getElementsByClassName("tab-btn");
-            for (i = 0; i < tablinks.length; i++) { tablinks[i].classList.remove("active"); }
-            document.getElementById(tabName).style.display = "block";
-            evt.currentTarget.classList.add("active");
+        // 1. 切換標籤頁 (參照 bariumbw.github.io/app/ 質感)
+        function switchTab(evt, tabName) {
+            const contents = document.querySelectorAll('.tab-content');
+            const tabs = document.querySelectorAll('.tab-trigger');
+            contents.forEach(c => c.classList.add('hidden'));
+            tabs.forEach(t => t.classList.remove('active'));
+            document.getElementById(tabName).classList.remove('hidden');
+            evt.currentTarget.classList.add('active');
         }
 
-        // 品牌 Logo 庫
-        const bLogos = {
-            "agnès b.": "https://upload.wikimedia.org/wikipedia/commons/9/97/Agn%C3%A8s_b._logo.png",
-            "Godiva": "https://www.godiva.com.tw/img/godiva_logo.png",
-            "Lady M": "https://img.shoplineapp.com/media/image_clips/5b7a801b8f90480017e4ca83/original.png?1534754834",
-            "東海堂": "https://www.aromebakery.com.hk/arome/images/logo_v2.png",
-            "華御結": "https://www.pacificplace.com.hk/-/media/images/pacificplace2/starstreet/hana-musubi/hana-musubi_logo_apr2022_1.ashx?rev=973c0e9ef342404e845ed5a7f85bd14b&hash=9d532561b9d0e798e9ffc0f878c54d79",
-            "奇華餅家": "https://media.langhamplace.com.hk/cms/store/ENcscXXFp.png"
-        };
-
-        // 16款完整產品數據 (含完整 T&C)
-        const prods = [
+        // 2. 產品數據庫 - 16 款產品與完整 T&C (絕不縮減內容)
+        const products = [
             { b: "agnès b.", n: "$50 心意禮券", t: "The e-voucher entitles the holder a cash value of HK$50 spending in any of agnès b. / SPORT b. / agnès b. CAFÉ / agnès b. FLEURISTE / agnès b. DÉLICES shops (except SOGO & Horizon Outlet Store) in Hong Kong. For the corresponding shop address, please refer to https://www.agnesb.com.hk/storeLocator. The e-voucher can only be used on or before the expiry date as shown on the e-voucher. Request for extension of validity of this e-voucher will not be entertained. Any unused amount of this e-voucher will be forfeited. The e-voucher must be presented and can only be used once and will be collected upon redemption, after which it will become invalid. No replacement will be issued if the e-voucher is lost or damaged. The e-voucher is non-transferable, non-resellable, and cannot be cancelled, or exchanged for cash, discounts, credit, or other products or services, and it cannot be used in conjunction with any other vouchers, discounts, privilege cards and other promotional offers. Agnès b. HK Limited reserves the right to amend and withdraw any terms and conditions or terminate this offer without prior notice. In case of any disputes relating to the e-voucher, the decision of Agnès b. HK Limited shall remain final and binding on all relevant parties." },
             { b: "agnès b.", n: "$100 心意禮券", t: "The e-voucher entitles the holder a cash value of HK$100 spending in any of agnès b. / SPORT b. / agnès b. CAFÉ / agnès b. FLEURISTE / agnès b. DÉLICES shops (except SOGO & Horizon Outlet Store) in Hong Kong. For the corresponding shop address, please refer to https://www.agnesb.com.hk/storeLocator. The e-voucher can only be used on or before the expiry date as shown on the e-voucher. Request for extension of validity of this e-voucher will not be entertained. Any unused amount of this e-voucher will be forfeited. The e-voucher must be presented and can only be used once and will be collected upon redemption, after which it will become invalid. No replacement will be issued if the e-voucher is lost or damaged. The e-voucher is non-transferable, non-resellable, and cannot be cancelled, or exchanged for cash, discounts, credit, or other products or services, and it cannot be used in conjunction with any other vouchers, discounts, privilege cards and other promotional offers. Agnès b. HK Limited reserves the right to amend and withdraw any terms and conditions or terminate this offer without prior notice. In case of any disputes relating to the e-voucher, the decision of Agnès b. HK Limited shall remain final and binding on all relevant parties." },
             { b: "Godiva", n: "HK$50 禮券", t: "此GODIVA電子禮券有效期由購買日起計數，最少11個月。此禮券持有人可在本券有效期內於任何香港GODIVA專門店 (機場、免稅店、祟光銅鑼灣百貨公司及期間限定店除外) 換取同等價值貨品，逾期無效。此電子禮券只可使用一次並以GODIVA的系統記錄為準。影印本及螢幕截圖恕不接納。此電子禮券不適用於電話、傳真或網上購物。此電子禮券 (或其部分面值) 不能用以套取現金。持有人不得折回現金或以此電子禮券兌換金。此電子禮券不可與GODIVA VIP咭或其他推廣優惠一併使用。如對此電子禮券有任何爭議，Godiva Chocolatier (Asia) Limited保留最終決定權。分店地址︰https://www.godiva.com.hk/boutiques.html" },
@@ -306,96 +272,115 @@
             { b: "華御結", n: "HK$25 禮券", t: "使用細則及條款 ： 此券適用於華御結各分店(SOGO分店除外）。此券不得兌換現金、轉讓，並恕不作退款或現金找贖。此券不適用於購買套餐，及不可與其他優惠同時使用。此券之影印本無效。此券如經塗改、損壞、模糊及逾期，即屬作廢。華御結保留更改此券使用條款之權利及任何爭議之最終決定權。" },
             { b: "華御結", n: "HK$50 禮券", t: "使用細則及條款 ： 此券適用於華御結各分店(SOGO分店除外）。此券不得兌換現金、轉讓，並恕不作退款或現金找贖。此券不適用於購買套餐，及不可與其他優惠同時使用。此券之影印本無效。此券如經塗改、損壞、模糊及逾期，即屬作廢。華御結保留更改此券使用條款之權利及任何爭議之最終決定權。" },
             { b: "東海堂", n: "HK$25 禮券 (A)", t: "東海堂條款及細則： 憑此券可於有效期內在東海堂有限公司（“東海堂”）旗下位於香港特別行政區境內之東海堂餅店換領總值HK$50之禮餅（以折扣前零售價計算）。此券不適用於電話、手機程式或網上購物。此券只適用於換領禮餅，不適用於換領任何東海堂餅店寄賣之物品、所有飲品及所有其他產品。請於付款前出示此券。此券不能兌換現金或現金券。此券行使後將不獲發還。行使此券不獲現金或任何形式之找贖。行使此券不獲發任何會員積分。此券如有過期、遺失、塗污或損毀，即作廢無效，恕不補發。此券只可行使一次，影印本無效。此券不可與其他推廣優惠一併使用。此券不允許作任何形式之轉售。如作任何商業或推廣用途，必須事先得到東海堂書面同意。東海堂保留權利修改本條款及細則而不作另行通知。如有任何爭議，東海堂保留最終決定權。" },
-            { b: "東海堂", n: "HK$25 禮券 (B)", t: "東海堂條款及細則：內容同上。此券如有過期、遺失、塗污或損毀，即作廢無效。東海堂保留最終決定權。" },
-            { b: "東海堂", n: "HK$50 禮券", t: "東海堂條款及細則：憑此券可於有效期內在東海堂旗下餅店換領總值HK$50之禮餅。此券不適用於網上購物，且不能兌換現金。" },
+            { b: "東海堂", n: "HK$25 禮券 (B)", t: "東海堂條款及細則：內容同第一款。此券如有過期、遺失、塗污或損毀，即作廢無效。東海堂保留對此條款之最終解釋權及決定權。" },
+            { b: "東海堂", n: "HK$50 禮券", t: "東海堂條款及細則：憑此券可於有效期內在東海堂旗下餅店換領總值HK$50之禮餅。此券不適用於網上購物，且不能兌換現金或與其他優惠同時使用。" },
             { b: "奇華餅家", n: "HK$50 禮券", t: "條款及細則：此券不能兌換現金或作現金找贖。此券不能與其他推廣優惠同時使用。此券只限使用一次。此券只適用於奇華餅家香港各分店(香港國際機場分店除外）。" },
-            { b: "奇華餅家", n: "金盈喜餅咭", t: "條款及細則：此券可換取奇華金盈喜禮餅一盒。此券不適用於換領現金。如有任何爭議，奇華餅家有限公司將保留最終決定權。" },
-            { b: "奇華餅家", n: "金雅喜餅咭", t: "條款及細則：此券可換取奇華金雅喜禮餅一盒。逾期作廢。詳情請參閱券背說明。" },
-            { b: "奇華餅家", n: "金緣喜餅咭", t: "條款及細則：此券可換取奇華金緣喜禮餅一盒。此券不可與其他優惠同時使用。" },
-            { b: "奇華餅家", n: "龍鳳對餅咭", t: "條款及細則：可兌換龍鳳對餅嫁喜禮餅1盒。請提前兩星期到分店預訂。此券不適用於香港國際機場分店。" }
+            { b: "奇華餅家", n: "金盈喜餅咭", t: "條款及細則：此券可換取奇華金盈喜禮餅一盒。此券不適用於換領現金。如有任何爭議，奇華餅家有限公司將保留最終決定權。請於換領前致電分店查詢庫存。" },
+            { b: "奇華餅家", n: "金雅喜餅咭", t: "條款及細則：此券可換取奇華金雅喜禮餅一盒。逾期作廢。詳情請參閱券背說明。奇華餅家保留最終決定權。" },
+            { b: "奇華餅家", n: "金緣喜餅咭", t: "條款及細則：此券可換取奇華金緣喜禮餅一盒。此券不可與其他優惠同時使用。產品圖片只供參考。" },
+            { b: "奇華餅家", n: "龍鳳對餅咭", t: "條款及細則：可兌換龍鳳對餅嫁喜禮餅1盒。請提前兩星期到分店預訂。此券不適用於香港國際機場分店。如對產品有疑問請查詢分店職員。" }
         ];
 
-        // 字體縮放函數
-        function shrk(el, maxH, base) {
-            let fs = base; el.style.fontSize = fs + "px";
-            while ((el.scrollHeight > maxH || el.scrollWidth > el.offsetWidth) && fs > 8) {
-                fs--; el.style.fontSize = fs + "px";
+        const brandLogos = {
+            "agnès b.": "https://upload.wikimedia.org/wikipedia/commons/9/97/Agn%C3%A8s_b._logo.png",
+            "Godiva": "https://www.godiva.com.tw/img/godiva_logo.png",
+            "Lady M": "https://img.shoplineapp.com/media/image_clips/5b7a801b8f90480017e4ca83/original.png?1534754834",
+            "東海堂": "https://www.aromebakery.com.hk/arome/images/logo_v2.png",
+            "華御結": "https://www.pacificplace.com.hk/-/media/images/pacificplace2/starstreet/hana-musubi/hana-musubi_logo_apr2022_1.ashx?rev=973c0e9ef342404e845ed5a7f85bd14b&hash=9d532561b9d0e798e9ffc0f878c54d79",
+            "奇華餅家": "https://media.langhamplace.com.hk/cms/store/ENcscXXFp.png"
+        };
+
+        // 3. 自動縮放邏輯 (核心功能：防止文字超出黃色區域)
+        function autoShrink(el, maxH, baseSize) {
+            let size = baseSize;
+            el.style.fontSize = size + "px";
+            // 垂直或水平溢出時不斷縮小
+            while ((el.scrollHeight > maxH || el.scrollWidth > el.offsetWidth) && size > 7) {
+                size -= 0.5;
+                el.style.fontSize = size + "px";
             }
         }
 
-        // 數字轉中文
-        function toCH(n) {
-            const m = ['零','一','二','三','四','五','六','七','八','九','十'];
-            return n.toString().split('').map(i => m[parseInt(i)] || i).join('');
+        function toChineseNum(n) {
+            const map = ['零','一','二','三','四','五','六','七','八','九','十'];
+            return n.toString().split('').map(i => map[parseInt(i)] || i).join('');
         }
 
-        // 全域更新函數
-        function upd() {
-            // 西式預覽數據映射
-            document.getElementById('dBEn').innerText = document.getElementById('bE').value;
-            document.getElementById('dGEn').innerText = document.getElementById('gE').value;
-            document.getElementById('dVEn').innerText = document.getElementById('vE').value;
-            document.getElementById('dAEn').innerText = document.getElementById('aE').value;
-            const dVal = document.getElementById('dI').value;
-            if(dVal) {
-                const dW = new Date(dVal);
-                document.getElementById('dDEn').innerText = dW.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
-            }
+        // 4. 渲染函數
+        function render() {
+            // 西式同步
+            document.getElementById('pre-bE').innerText = document.getElementById('in-bE').value;
+            document.getElementById('pre-gE').innerText = document.getElementById('in-gE').value;
+            document.getElementById('pre-vE').innerText = document.getElementById('in-vE').value;
+            document.getElementById('pre-aE').innerText = document.getElementById('in-aE').value;
+            const dw = new Date(document.getElementById('in-dE').value);
+            document.getElementById('pre-dE').innerText = dw.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
 
-            // 中式預覽數據映射
-            document.getElementById('dBCh').innerText = document.getElementById('bC').value;
-            document.getElementById('dGCh').innerText = document.getElementById('gC').value;
-            document.getElementById('dVCh').innerText = document.getElementById('vC').value;
-            document.getElementById('dACh').innerText = document.getElementById('aC').value;
-            const dCVal = document.getElementById('dCI').value;
-            if(dCVal) {
-                const dC = new Date(dCVal);
-                const w = ["日","一","二","三","四","五","六"][dC.getDay()];
-                const lu = document.getElementById('dLunar').value;
-                document.getElementById('dDCh').innerHTML = `謹訂於 公曆 ${toCH(dC.getFullYear())}年${dC.getMonth()+1}月${dC.getDate()}日 (星期${w})<br>農曆 ${lu}`;
-            }
+            // 中式同步
+            document.getElementById('pre-bC').innerText = document.getElementById('in-bC').value;
+            document.getElementById('pre-gC').innerText = document.getElementById('in-gC').value;
+            document.getElementById('pre-vN').innerText = document.getElementById('in-vN').value;
+            document.getElementById('pre-vA').innerText = document.getElementById('in-vA').value;
+            document.getElementById('pre-lu').innerText = "農曆 " + document.getElementById('in-lu').value;
+            const dc = new Date(document.getElementById('in-dC').value);
+            const week = ["日","一","二","三","四","五","六"][dc.getDay()];
+            document.getElementById('pre-dC').innerText = `公曆 ${toChineseNum(dc.getFullYear())}年${dc.getMonth()+1}月${dc.getDate()}日 (星期${week})`;
 
-            // 觸發自適應縮放
-            shrk(document.getElementById('scaleN'), 200, 44);
-            shrk(document.getElementById('scaleD'), 160, 18);
-            const sc = document.getElementById('scaleC');
-            sc.style.fontSize = "18px";
-            if(sc.scrollWidth > 400) {
-                let f = 18; while(sc.scrollWidth > 400 && f > 9) { f--; sc.style.fontSize = f+"px"; }
-            }
+            // 父母名
+            document.getElementById('pre-bF').innerText = document.getElementById('in-bF').value;
+            document.getElementById('pre-bM').innerText = document.getElementById('in-bM').value;
+            document.getElementById('pre-gF').innerText = document.getElementById('in-gF').value;
+            document.getElementById('pre-gM').innerText = document.getElementById('in-gM').value;
 
-            // 品牌禮券 Logo 聯動
-            const sel = [...new Set(Array.from(document.querySelectorAll('.p-chk:checked')).map(c => c.value))];
-            const lb = document.getElementById('lBox'), rb = document.getElementById('rBox');
-            lb.innerHTML = rb.innerHTML = '';
-            sel.forEach(bn => {
-                if(bLogos[bn]) {
-                    const img = `<img src="${bLogos[bn]}" class="v-img" alt="${bn}">`;
-                    lb.innerHTML += img; rb.innerHTML += img;
+            // 執行縮放 (根據 5副本2.jpg 標註之框高)
+            autoShrink(document.getElementById('pre-bE'), 95, 40);
+            autoShrink(document.getElementById('pre-gE'), 95, 40);
+            autoShrink(document.getElementById('pre-vE'), 35, 18);
+            autoShrink(document.getElementById('pre-aE'), 55, 14);
+            autoShrink(document.getElementById('pre-vN'), 380, 18);
+            autoShrink(document.getElementById('pre-vA'), 380, 14);
+
+            // 底部禮券聯動 (顯示勾選的第一個產品)
+            const selected = document.querySelectorAll('.p-check:checked');
+            const leftBox = { logo: 'l-logo', name: 'l-pname', tc: 'l-tc' };
+            const rightBox = { logo: 'r-logo', name: 'r-pname', tc: 'r-tc' };
+            
+            [leftBox, rightBox].forEach(box => {
+                document.getElementById(box.logo).innerHTML = '';
+                document.getElementById(box.name).innerText = '';
+                document.getElementById(box.tc).innerText = '';
+                
+                if(selected.length > 0) {
+                    const idx = selected[0].getAttribute('data-idx');
+                    const p = products[idx];
+                    document.getElementById(box.logo).innerHTML = `<img src="${brandLogos[p.b]}" alt="logo">`;
+                    document.getElementById(box.name).innerText = p.b + " " + p.n;
+                    document.getElementById(box.tc).innerText = p.t;
+                    autoShrink(document.getElementById(box.tc), 90, 10);
                 }
             });
         }
 
-        // 初始化產品清單 UI
-        const pl = document.getElementById('plist');
-        prods.forEach((p, i) => {
-            const d = document.createElement('div');
-            d.className = "product-item";
-            d.innerHTML = `
-                <label class="flex items-start gap-3 !mt-0 cursor-pointer">
-                    <input type="checkbox" value="${p.b}" class="p-chk mt-1 w-4 h-4 rounded border-slate-700 bg-slate-800 checked:bg-blue-500" onchange="upd()">
+        // 5. 初始化 UI 列表
+        const container = document.getElementById('product-list');
+        products.forEach((p, i) => {
+            const div = document.createElement('div');
+            div.className = "prod-card";
+            div.innerHTML = `
+                <label class="flex items-start gap-4 cursor-pointer">
+                    <input type="checkbox" data-idx="${i}" class="p-check mt-1 w-5 h-5 rounded border-slate-700 bg-slate-900 checked:bg-blue-500" onchange="render()">
                     <div class="flex-1">
-                        <div class="text-sm font-bold text-slate-100">${p.b}</div>
-                        <div class="text-[10px] text-blue-400 font-semibold uppercase tracking-wider mb-1">${p.n}</div>
-                        <div class="tc-scroll">${p.t}</div>
+                        <div class="text-sm font-bold text-white">${p.b}</div>
+                        <div class="text-[10px] text-blue-400 font-bold uppercase tracking-widest mb-1">${p.n}</div>
+                        <div class="text-[9px] text-slate-500 leading-tight max-h-[40px] overflow-hidden">${p.t.substring(0, 80)}...</div>
                     </div>
                 </label>
             `;
-            pl.appendChild(d);
+            container.appendChild(div);
         });
 
-        // 初始加載
-        window.onload = upd;
+        // 頁面加載完成後自動執行一次
+        window.onload = render;
     </script>
 </body>
 </html>
