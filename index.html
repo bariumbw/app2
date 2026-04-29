@@ -24,6 +24,8 @@
         .card-canvas { width: 1000px; height: 707px; position: relative; background-image: url('5.jpg'); background-size: cover; box-shadow: 0 40px 80px rgba(0,0,0,0.6); background-color: #fff; }
         .preview-item { position: absolute; color: var(--wedding-red); display: flex; justify-content: center; align-items: center; text-align: center; pointer-events: none; }
 
+        .v-text { writing-mode: vertical-rl; line-height: 1.2; }
+
         /* --- WESTERN 定位 --- */
         #pre-bE { top: 17px; left: 6px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; }
         #pre-gE { top: 147px; left: 210px; width: 350px; height: 120px; font-family: 'Georgia', serif; font-style: italic; font-size: 50px; }
@@ -32,7 +34,6 @@
         #pre-aE { top: 437px; left: 22px; width: 450px; height: 55px; font-size: 14px; align-items: flex-start; }
 
         /* --- CHINESE 定位 --- */
-        .v-text { writing-mode: vertical-rl; line-height: 1.2; }
         #pre-dC { top: 143px; right: 30px; height: 400px; width: 40px; font-size: 18px; }
         #pre-lu { top: 83px; right: 57px; height: 400px; width: 40px; font-size: 16px; }
         #pre-gC { top: 101px; right: 99px; height: 110px; width: 30px; font-weight: bold; font-size: 20px; }
@@ -40,15 +41,11 @@
         #pre-vN { top: 25px; right: 183px; height: 380px; width: 30px; font-size: 18px; }
         #pre-vA { top: 77px; right: 161px; height: 380px; width: 30px; font-size: 16px; }
         
-        /* 時間顯示區域：僅顯示數字 */
-        #pre-time-box { top: 130px; right: 220px; height: 300px; width: 40px; font-size: 22px; font-weight: bold; display: flex; flex-direction: column; align-items: center; gap: 40px; }
+        /* 時間顯示：向左 40格(-80px), 向上 30格(-60px) */
+        #pre-time-box { top: 70px; right: 300px; height: 300px; width: 40px; font-size: 22px; font-weight: bold; display: flex; flex-direction: column; align-items: center; gap: 40px; }
 
         .parent-box { top: 357px; right: 305px; width: 140px; height: 95px; display: flex; flex-direction: row-reverse; gap: 8px; }
         .p-name { writing-mode: vertical-rl; width: 28px; height: 100%; font-size: 18px; font-weight: bold; }
-
-        .footer-pre { position: absolute; bottom: 93px; width: 455px; height: 145px; display: flex; gap: 15px; }
-        .footer-left { left: 22px; } .footer-right { right: 22px; }
-        .pre-logo img { max-height: 40px; width: auto; margin-bottom: 4px; }
     </style>
 </head>
 <body>
@@ -64,7 +61,7 @@
             <div id="tab-w" class="tab-content">
                 <div class="input-group"><label>Bride Name</label><input type="text" id="in-bE" value="Rosesalina" oninput="render()"></div>
                 <div class="input-group"><label>Groom Name</label><input type="text" id="in-gE" value="Benjamin" oninput="render()"></div>
-                <div class="input-group"><label>Date</label><input type="date" id="in-dE" value="2026-10-15" oninput="syncDate(this.value)"></div>
+                <div class="input-group"><label>Wedding Date</label><input type="date" id="in-date" value="2026-10-15" oninput="render()"></div>
                 <div class="input-group"><label>Venue Name</label><input type="text" id="in-vE" value="FOUR SEASONS GRAND BALLROOM" oninput="render()"></div>
                 <div class="input-group"><label>Venue Address</label><input type="text" id="in-aE" value="8 FINANCE STREET, CENTRAL, HONG KONG" oninput="render()"></div>
             </div>
@@ -73,13 +70,10 @@
                     <div class="input-group"><label>新娘</label><input type="text" id="in-bC" value="嘉欣" oninput="render()"></div>
                     <div class="input-group"><label>新郎</label><input type="text" id="in-gC" value="大文" oninput="render()"></div>
                 </div>
-                <div class="input-group"><label>選擇結婚日期</label><input type="date" id="in-dC" value="2026-10-15" oninput="syncDate(this.value)"></div>
-                
                 <div class="grid grid-cols-2 gap-2 border-t border-white/10 pt-4 mt-2">
                     <div class="input-group"><label>恭候時間 (數字)</label><input type="number" id="in-tWait" value="5" oninput="render()"></div>
                     <div class="input-group"><label>入席時間 (數字)</label><input type="number" id="in-tSit" value="8" oninput="render()"></div>
                 </div>
-
                 <div class="input-group"><label>場地名稱</label><input type="text" id="in-vN" value="香港四季酒店 · 四季大禮堂" oninput="render()"></div>
                 <div class="input-group"><label>場地地址</label><input type="text" id="in-vA" value="香港中環金融街 8 號" oninput="render()"></div>
                 <div class="grid grid-cols-2 gap-2">
@@ -121,16 +115,20 @@
             evt.currentTarget.classList.add('active');
         }
 
-        function toChineseNum(n) {
+        // 通用中國數字轉換 (支持年份與日期)
+        function toChineseNum(n, isYear = false) {
             const map = ['零','一','二','三','四','五','六','七','八','九','十'];
             if (!n) return "";
+            if (isYear) {
+                return n.toString().split('').map(i => map[parseInt(i)]).join('');
+            }
             n = parseInt(n);
             if (n <= 10) return map[n];
             if (n < 20) return '十' + (n % 10 === 0 ? '' : map[n % 10]);
             return map[Math.floor(n / 10)] + '十' + (n % 10 === 0 ? '' : map[n % 10]);
         }
 
-        // 格式化農曆：丙午年三月十三
+        // 格式化農曆：歲次 丙午年 三月十三
         function getLunarFormatted(dateStr) {
             const date = new Date(dateStr);
             const formatter = new Intl.DateTimeFormat('zh-Hant-u-ca-chinese', {
@@ -139,51 +137,45 @@
             const parts = formatter.formatToParts(date);
             let y = "", m = "", d = "";
             parts.forEach(p => {
-                if(p.type === 'year') y = p.value; // 如 "2026" (但在 chinese calendar 會是天干地支)
+                if(p.type === 'year') y = p.value;
                 if(p.type === 'month') m = p.value;
                 if(p.type === 'day') d = p.value;
             });
-            // 由於 Intl API 的 year 可能返回數字，這裡手動校驗或直接拼接
-            // 注意：某些瀏覽器 Intl 中國曆 year 會直接給出天干地支
-            return `${y}年${m}${d}`;
-        }
-
-        function syncDate(val) {
-            document.getElementById('in-dE').value = val;
-            document.getElementById('in-dC').value = val;
-            render();
+            return `歲次 ${y}年${m}${d}`;
         }
 
         function render() {
-            // Western Render
+            const dateVal = document.getElementById('in-date').value;
+            const dt = new Date(dateVal);
+
+            // --- Western ---
             document.getElementById('pre-bE').innerText = document.getElementById('in-bE').value;
             document.getElementById('pre-gE').innerText = document.getElementById('in-gE').value;
             document.getElementById('pre-vE').innerText = document.getElementById('in-vE').value;
             document.getElementById('pre-aE').innerText = document.getElementById('in-aE').value;
-            const dw = new Date(document.getElementById('in-dE').value);
-            document.getElementById('pre-dE').innerText = dw.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
+            document.getElementById('pre-dE').innerText = dt.toLocaleDateString('en-US', {month:'long', day:'numeric', year:'numeric'});
 
-            // Chinese Render
+            // --- Chinese ---
             document.getElementById('pre-bC').innerText = document.getElementById('in-bC').value;
             document.getElementById('pre-gC').innerText = document.getElementById('in-gC').value;
             document.getElementById('pre-vN').innerText = document.getElementById('in-vN').value;
             document.getElementById('pre-vA').innerText = document.getElementById('in-vA').value;
             
-            // 農曆自動換算
-            const dateVal = document.getElementById('in-dC').value;
-            if(dateVal) {
-                document.getElementById('pre-lu').innerText = "農曆 " + getLunarFormatted(dateVal);
-            }
+            // 公曆日期轉中國數字
+            const cy = toChineseNum(dt.getFullYear(), true);
+            const cm = toChineseNum(dt.getMonth() + 1);
+            const cd = toChineseNum(dt.getDate());
+            const week = ["日","一","二","三","四","五","六"][dt.getDay()];
+            document.getElementById('pre-dC').innerText = `公曆 ${cy}年${cm}月${cd}日 (星期${week})`;
 
-            const dc = new Date(dateVal);
-            const week = ["日","一","二","三","四","五","六"][dc.getDay()];
-            const yearChars = dc.getFullYear().toString().split('').map(i => ['零','一','二','三','四','五','六','七','八','九'][i]).join('');
-            document.getElementById('pre-dC').innerText = `公曆 ${yearChars}年${dc.getMonth()+1}月${dc.getDate()}日 (星期${week})`;
+            // 農曆 (歲次格式)
+            document.getElementById('pre-lu').innerText = getLunarFormatted(dateVal);
 
-            // 時間純數字轉換
+            // 時間數字
             document.getElementById('val-wait').innerText = toChineseNum(document.getElementById('in-tWait').value);
             document.getElementById('val-sit').innerText = toChineseNum(document.getElementById('in-tSit').value);
 
+            // 家長
             document.getElementById('pre-bF').innerText = document.getElementById('in-bF').value;
             document.getElementById('pre-bM').innerText = document.getElementById('in-bM').value;
             document.getElementById('pre-gF').innerText = document.getElementById('in-gF').value;
